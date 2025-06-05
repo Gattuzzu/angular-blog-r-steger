@@ -93,3 +93,41 @@ Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
  "*.{ts,js,html,css,scss,less,md}": "prettier --write"
 }
 ----
+
+### Husky
+Husky zum Projekt hinzufügen
+[source, shell]
+-----
+npm install --save-dev husky
+-----
+Husky initialisieren
+[source, shell]
+-----
+npx husky init
+-----
+Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
+[source, json]
+----
+"scripts": {
+ "prepare": "husky"
+}
+----
+Nun muss das Vorbereitete Skript ausgeführt werden:
+[source, shell]
+-----
+npm run prepare
+-----
+File ".husky/commit-msg" erstellen mit Folgendem Inhalt befüllen:
+[source, shell]
+----
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+npx --no-install commitlint --edit "$1"
+----
+In File ".husky/pre-commit" den Inhalt mit folgendem überschreiben
+[source, shell]
+-----
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+npx --no-install lint-staged
+-----
