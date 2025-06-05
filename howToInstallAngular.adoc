@@ -14,3 +14,7 @@ Um die App lokal zu starten, muss man folgenden Command absetzen:
 ng serve --open
 ----
 
+## Create Action to Deploy on Azure
+. "Azure App Service" als Extension zu VsCode hinzufügen
+. Unter Resourcen -> "Azure for Students" -> "Static Web Apps" -> rechtsklick machen und neue App Hinzufügen.
+. Im Terminal von VsCode absetzen: "ng add @angular/material"
