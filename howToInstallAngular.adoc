@@ -69,3 +69,12 @@ Commitlint zum Projekt hinzufügen
 -----
 npm install @commitlint/cli @commitlint/config-conventional
 -----
+Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
+[source, json]
+----
+"commitlint": {
+ "extends": [
+   "@commitlint/config-conventional"
+ ]
+}
+----
