@@ -41,3 +41,17 @@ ESLint zum Projekt hinzufügen
 -----
 ng add @angular-eslint/schematics
 -----
+
+### Prettier
+Prettier zum Projekt hinzufügen
+[source, shell]
+-----
+npm install prettier --save-dev
+-----
+Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
+[source, json]
+----
+"scripts": {
+    "format": "npx prettier --write ./src/app/*"
+}
+----
