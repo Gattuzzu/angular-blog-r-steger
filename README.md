@@ -1,12 +1,17 @@
 # Angular-Blog-R-Steger
 
+Die Webseite ist über folgenden [Link](https://salmon-ground-00f47e103.6.azurestaticapps.net/) erreichbar.
+
+```link
+https://salmon-ground-00f47e103.6.azurestaticapps.net/
+```
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 
-## Wie habe ich Angular isntalliert
+## Wie habe ich Angular installiert
 
 Siehe dazu [How to install Angular](./howToInstallAngular.adoc)
 Dort sind sowohl meine Schritte, wie auch Probleme, welche im verlauf vom erstellen des Angular Projekts und insbesondere bezüglich dem Deployen hatte, beschrieben.
-
 
 ## Weitere Infos vom standart Readme
 
