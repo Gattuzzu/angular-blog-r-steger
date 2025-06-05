@@ -62,3 +62,10 @@ Environments zum Projekt hinzufügen
 -----
 ng generate environments
 -----
+
+### Commitlint
+Commitlint zum Projekt hinzufügen
+[source, shell]
+-----
+npm install @commitlint/cli @commitlint/config-conventional
+-----
