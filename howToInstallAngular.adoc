@@ -223,3 +223,26 @@ Das Script muss in "package.json" wie folgt hinzugefügt werden:
   "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
 }
 ----
+
+### Dependabot Angular Update
+Dies erleichtert das Updaten von Angular, da nicht mehrere PR's sondern immer nur einer abgeschlossen werden muss. 
+In diesem sind dann auch gleich alle Angular Package Updates. Dies hilft ebenfalls im Updateprozess, da nicht nur ein Angular Package geupdatet werden kann.
+Datei ".github/workflow/ng-update.yaml" erstellen und mit folgendem Inhalt befüllen:
+[source, yaml]
+----
+name: "Update Angular Action"
+on:
+  workflow_dispatch: # Zum manuellen Triggern des Workflows
+  schedule:
+    - cron: '00 02 * * 1' # Jeweils Montag um 02:00
+
+jobs:
+  ngxUptodate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Updating ng dependencies # the magic happens here!
+        uses: fast-facts/ng-update@v1
+        with:
+          base-branch: main
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+----
