@@ -43,6 +43,13 @@ ng serve --open
 ... Im Terminal von VsCode absetzen: "npm update"
 ... Im Terminal von VsCode absetzen: "npm install"
 
+. Probleme nach dem Angular Update von 19.2.0 -> 20.0.1 konnte die Webseite nicht mehr nach Azure deployed werden.
+.. Das Problem ist, dass in Azure eine zu tiefe Node Version läuft. Die Node Version auf Azure kann folgendermassen spezifiziert werden:
+... In der Datei "package.json" muss folgender Eintrag hinzugefügt werden:
+.... "engines": {"node": ">=20.0.0" },
+... Im Terminal von VsCode absetzen: "npm update"
+... Im Terminal von VsCode absetzen: "npm install"
+
 
 ## Code-Qualitätstools hinzufügen
 
