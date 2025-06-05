@@ -78,3 +78,18 @@ Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
  ]
 }
 ----
+
+### Lint-staged
+Lint-staged zum Projekt hinzufügen
+[source, shell]
+-----
+npm install --save-dev lint-staged
+-----
+Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
+[source, json]
+----
+"lint-staged": {
+ "*.{ts,js,html}": "eslint --cache --fix",
+ "*.{ts,js,html,css,scss,less,md}": "prettier --write"
+}
+----
