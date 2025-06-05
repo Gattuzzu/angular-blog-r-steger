@@ -18,3 +18,8 @@ ng serve --open
 . "Azure App Service" als Extension zu VsCode hinzufügen
 . Unter Resourcen -> "Azure for Students" -> "Static Web Apps" -> rechtsklick machen und neue App Hinzufügen.
 . Im Terminal von VsCode absetzen: "ng add @angular/material"
+
+
+## package.json mit Projektspezifischen Daten abfüllen
+. Im Terminal von VsCode absetzen: "npm init"
+Dadurch wird das package.json initialisierung und mit den Projektspezifischen einstellungen erweitert.
