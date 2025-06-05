@@ -1,6 +1,6 @@
 name: "Update Angular Action"
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Zum manuellen Triggern des Workflows
   schedule:
     - cron: '00 02 * * 1' # Jeweils Montag um 02:00
 
