@@ -55,3 +55,10 @@ Zusätzlich muss in package.json folgenden Code hinzugefügt werden:
     "format": "npx prettier --write ./src/app/*"
 }
 ----
+
+### Environments
+Environments zum Projekt hinzufügen
+[source, shell]
+-----
+ng generate environments
+-----
