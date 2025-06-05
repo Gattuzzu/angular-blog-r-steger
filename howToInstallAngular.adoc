@@ -1,6 +1,6 @@
 # Angular
-## Install Angular
 
+## Install Angular
 . VsCode öffnen
 . Im Terminal von VsCode absetzen: "npm install -g @angular/cli"
 . Im Terminal von VsCode absetzen: "ng new angular-blog-r-steger"
@@ -20,6 +20,16 @@ ng serve --open
 . Im Terminal von VsCode absetzen: "ng add @angular/material"
 
 
-## package.json mit Projektspezifischen Daten abfüllen
-. Im Terminal von VsCode absetzen: "npm init"
-Dadurch wird das package.json initialisierung und mit den Projektspezifischen einstellungen erweitert.
+## Trouble Shooting 
+. package.json mit Projektspezifischen Daten abfüllen
+.. Im Terminal von VsCode absetzen: "npm init"
+    Dadurch wird das package.json initialisierung und mit den Projektspezifischen einstellungen erweitert.
+. Angular Versionen anpassen (Downgrade) ^20.0.0 -> ^19.2.0
+.. Im Terminal von VsCode absetzen: "npm install"
+    Dadruch werden die Abhängigkeiten von package-lock.json geupdatet
+. angular.json angepasst
+.. Variable "outputPath" hinzugefügt
+.. Variable "index" hinzugefügt
+. Problematischen Import entfernt
+.. In der Datei "app.config.ts" wurde der Import "provideBrowserGlobalErrorListeners" verwendet. 
+    Dieser ist aber vermutlich erst ab Angular Version 20.0.0 verfügbar. Aufgrund des Downgrades muss dieser Import entfernt werden. 
