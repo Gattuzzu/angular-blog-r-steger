@@ -6,7 +6,12 @@ Die Webseite ist über folgenden [Link](https://salmon-ground-00f47e103.6.azures
 https://salmon-ground-00f47e103.6.azurestaticapps.net/
 ```
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
+## Beschreibung
+
+Dieses Projekt wurde für den Kurs Web-Applikationen erstellt.
+Anhand des Frontend teils von einem Blog sollen diverese Übungen gemacht werden.
+Eine Backend anbindung für den Blog wird durch den Dozenten zur verfügung gestellt.
+Das Frontende wird mit Angular umgesetzt.
 
 ## Wie habe ich Angular installiert
 
@@ -14,6 +19,8 @@ Siehe dazu [How to install Angular](./howToInstallAngular.adoc)
 Dort sind sowohl meine Schritte, wie auch Probleme, welche im verlauf vom erstellen des Angular Projekts und insbesondere bezüglich dem Deployen hatte, beschrieben.
 
 ## Weitere Infos vom standart Readme
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 
 ### Development server
 
