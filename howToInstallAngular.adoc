@@ -33,3 +33,11 @@ ng serve --open
 . Problematischen Import entfernt
 .. In der Datei "app.config.ts" wurde der Import "provideBrowserGlobalErrorListeners" verwendet. 
     Dieser ist aber vermutlich erst ab Angular Version 20.0.0 verfügbar. Aufgrund des Downgrades muss dieser Import entfernt werden. 
+
+## Code-Qualitätstools hinzufügen
+### ESLint
+ESLint zum Projekt hinzufügen
+[source, shell]
+-----
+ng add @angular-eslint/schematics
+-----

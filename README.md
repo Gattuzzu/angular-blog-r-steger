@@ -8,7 +8,7 @@ Siehe dazu [How to install Angular](./howToInstallAngular.adoc)
 Dort sind sowohl meine Schritte, wie auch Probleme, welche im verlauf vom erstellen des Angular Projekts und insbesondere bezüglich dem Deployen hatte, beschrieben.
 
 
-## Weitere Infos vom standard Readme
+## Weitere Infos vom standart Readme
 
 ### Development server
 
