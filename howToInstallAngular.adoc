@@ -24,17 +24,28 @@ ng serve --open
 . package.json mit Projektspezifischen Daten abfüllen
 .. Im Terminal von VsCode absetzen: "npm init"
     Dadurch wird das package.json initialisierung und mit den Projektspezifischen einstellungen erweitert.
+
 . Angular Versionen anpassen (Downgrade) ^20.0.0 -> ^19.2.0
 .. Im Terminal von VsCode absetzen: "npm install"
     Dadruch werden die Abhängigkeiten von package-lock.json geupdatet
+
 . angular.json angepasst
 .. Variable "outputPath" hinzugefügt
 .. Variable "index" hinzugefügt
+
 . Problematischen Import entfernt
 .. In der Datei "app.config.ts" wurde der Import "provideBrowserGlobalErrorListeners" verwendet. 
     Dieser ist aber vermutlich erst ab Angular Version 20.0.0 verfügbar. Aufgrund des Downgrades muss dieser Import entfernt werden. 
 
+. Probleme mit "npm run test"
+.. Um die Probleme zu beheben muss zusätzlich noch folgende "dependencies" in "package.json" hinzugefügt werden:
+... "@angular/platform-browser-dynamic": "^19.2.0",
+... Im Terminal von VsCode absetzen: "npm update"
+... Im Terminal von VsCode absetzen: "npm install"
+
+
 ## Code-Qualitätstools hinzufügen
+
 ### ESLint
 ESLint zum Projekt hinzufügen
 [source, shell]
@@ -124,10 +135,91 @@ File ".husky/commit-msg" erstellen mit Folgendem Inhalt befüllen:
 . "$(dirname -- "$0")/_/husky.sh"
 npx --no-install commitlint --edit "$1"
 ----
-In File ".husky/pre-commit" den Inhalt mit folgendem überschreiben
+In File ".husky/pre-commit" den Inhalt mit folgendem überschreiben:
 [source, shell]
 -----
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 npx --no-install lint-staged
 -----
+
+
+## Actions / Workflows einrichten
+
+### Dependabot aktivieren
+Einstellungen in GitHub, welche vorgängig erstellt werden müssen:
+
+* Unter "Settings -> Action -> General" gibt es den Topic "Workflow permissions" dort müssen folgende Einstellungen getätigt werden:
+** Set: Read and write permissions
+** Set: Allow GitHub Actions to create and approve pull requests
+
+* Unter "Security" müssen folgende Einstellungen getätigt werden:
+** Set: Enable Dependabot alerts
+*** Set: Dependabot alerts auf Enable
+*** Set: Dependabot security updates auf Enable
+*** Set: Dependabot version updates auf Enable (Dies erstellt eine neue Datei "dependabot.yml")
+**** Nun muss das File mit den korrekten Werten Abgefüllt werden. Für Angular muss die Datei mit den folgenden Einstellungen befüllt werden:
+
+[source, yaml]
+----
+version: 2
+updates:
+  - package-ecosystem: "npm" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+----
+
+### Dependabot Test and Build
+Nun kann man eine Neue Action erstellen. 
+. Dies kann man unter "Actions" machen. 
+. Dort kann man auf neue "New workflow" klicken. Nun gibt es bereits einige Vorlagen aus welchen man auswählen kann. 
+. Suchen nach "Angular" 
+. "Node.js" auswählen. Anschliessend wird eine neue Datei erstellt (node.js.yml). Der Dateiname kann nach "build.yml" umbenannt werden. Diese Datei muss mit den folgenden Einstellungen befüllt werden:
+
+[source, yaml]
+----
+name: Node.js CI
+
+on:
+  workflow_dispatch: # Zum manuellen Triggern des Workflows
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: package-lock.json
+    - run: npm ci
+
+    - name: Run tests
+      run: npm run test:ci
+
+    - name: Build
+      run: npm run build
+----
+
+Diese Action wird aber aktuell noch failen, da es noch kein Script "test:ci" gibt.
+Das Script muss in "package.json" wie folgt hinzugefügt werden:
+[source, json]
+----
+"scripts": {
+  "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
+}
+----
