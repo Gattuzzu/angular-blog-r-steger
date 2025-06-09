@@ -224,5 +224,23 @@ jobs:
 ----
 
 
+## Install Angular/material
+Package "@angular/material" zum Projekt hinzufügen:
+[source, shell]
+-----
+ng add @angular/material
+-----
+Theme: "Azure/Blue [Preview: https://material.angular.dev?theme=azure-blue]" ausgewählt.
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm update
+----
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm install
+----
+
 ## Trouble Shooting 
 Siehe link:./troubleshooting.adoc[TroubleShooting]
