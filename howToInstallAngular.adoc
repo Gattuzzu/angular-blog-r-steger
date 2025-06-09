@@ -242,5 +242,21 @@ Im Terminal von VsCode absetzen:
 npm install
 ----
 
+
+## Create component
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+ng generate component component-name --standalone
+----
+
+
+## Create service
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+ng generate service service-name
+----
+
 ## Trouble Shooting 
 Siehe link:./troubleshooting.adoc[TroubleShooting]

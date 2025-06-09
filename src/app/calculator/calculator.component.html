@@ -1,0 +1,36 @@
+<div>
+  <mat-form-field class="example-full-width">
+    <mat-label>Number a</mat-label>
+    <input matInput type="number" placeholder="2" [(ngModel)]="numberA" />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Number b</mat-label>
+    <input
+      matInput
+      type="number"
+      placeholder="5"
+      value=""
+      [(ngModel)]="numberB"
+    />
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Operation</mat-label>
+    <mat-select [(ngModel)]="selectedOperation">
+      @for (op of operations; track op) {
+        <mat-option [value]="op">{{ op }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <section>
+    <div class="example-button-row">
+      <div class="example-button-row">
+        <button matButton="elevated" (click)="calcResult()">Berechne</button>
+      </div>
+    </div>
+  </section>
+
+  <p>Ergibt: {{ result }}</p>
+</div>

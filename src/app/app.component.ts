@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { CalculatorComponent } from './calculator/calculator.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSlideToggleModule],
+  standalone: true,
+  imports: [RouterOutlet, MatSlideToggleModule, CalculatorComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
