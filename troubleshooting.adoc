@@ -1,0 +1,66 @@
+# Troubleshooting
+
+## package.json mit Projektspezifischen Daten abfüllen
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm init
+----
+Dadurch wird das package.json initialisierung und mit den Projektspezifischen einstellungen erweitert.
+
+
+## Angular Versionen anpassen (Downgrade) ^20.0.0 -> ^19.2.0
+In der Datei "package.json" alle Angular Versionen von "^20.0.0" -> "^19.2.0" ändern.
+Anschliessend im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm install
+----
+Dadruch werden die Abhängigkeiten von package-lock.json geupdatet
+
+
+## angular.json angepasst
+- Variable "outputPath" hinzugefügt
+- Variable "index" hinzugefügt
+
+
+## Problematischen Import entfernt
+In der Datei "app.config.ts" wurde der Import "provideBrowserGlobalErrorListeners" verwendet. 
+Dieser ist aber vermutlich erst ab Angular Version 20.0.0 verfügbar. Aufgrund des Downgrades muss dieser Import entfernt werden. 
+
+
+## Probleme mit "npm run test"
+Um die Probleme zu beheben muss zusätzlich noch folgende "dependencies" in "package.json" hinzugefügt werden:
+[source, json]
+----
+"@angular/platform-browser-dynamic": "^19.2.0",
+----
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm update
+----
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm install
+----
+
+
+## Probleme nach dem Angular Update von 19.2.0 -> 20.0.1 konnte die Webseite nicht mehr nach Azure deployed werden.
+Das Problem ist, dass in Azure eine zu tiefe Node Version läuft. Siehe dazu https://edi.wang/post/2022/1/27/how-to-specify-nodejs-version-when-building-azure-static-web-app[Link]. Die Node Version auf Azure kann folgendermassen spezifiziert werden:
+In der Datei "package.json" muss folgender Eintrag hinzugefügt werden:
+[source, json]
+----
+"engines": {"node": ">=20.0.0" },
+----
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm update
+----
+Im Terminal von VsCode absetzen: 
+[source, shell]
+----
+npm install
+----
