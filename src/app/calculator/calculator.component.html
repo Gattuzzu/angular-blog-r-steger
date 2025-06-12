@@ -1,0 +1,64 @@
+<div [ngClass]="isSpecial ? 'special' : ''">
+  <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+    <mat-button-toggle (click)="switchSelected('calculator')" value="calculator"
+      >Calculator</mat-button-toggle
+    >
+    <mat-button-toggle (click)="switchSelected('text')" value="text"
+      >Text</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+
+  <div *ngIf="selected === 'calculator'">
+    <mat-form-field class="example-full-width">
+      <mat-label>Number a</mat-label>
+      <input matInput type="number" placeholder="2" [(ngModel)]="numberA" />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Number b</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="5"
+        value=""
+        [(ngModel)]="numberB"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Operation</mat-label>
+      <mat-select [(ngModel)]="selectedOperation">
+        @for (op of operations; track op) {
+          <mat-option [value]="op">{{ op }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <section>
+      <div class="example-button-row">
+        <div class="example-button-row">
+          <button matButton="elevated" (click)="calcResult()">Berechne</button>
+        </div>
+      </div>
+    </section>
+
+    <p>Ergibt: {{ result }}</p>
+  </div>
+
+  <div *ngIf="selected === 'text'">
+    <mat-form-field class="example-full-width">
+      <mat-label>Gib einen Text ein.</mat-label>
+      <input
+        matInput
+        type="string"
+        placeholder="Text..."
+        value="Text..."
+        [(ngModel)]="newText"
+        (blur)="setText()"
+        (keyup.enter)="setText()"
+      />
+    </mat-form-field>
+
+    <p [style.font-size]="isLongText ? 'smaller' : 'x-large'">{{ actText }}</p>
+  </div>
+</div>

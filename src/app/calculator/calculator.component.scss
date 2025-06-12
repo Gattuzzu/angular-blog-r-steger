@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  justify-content: center; // horizontal zentriert
+  align-items: center; // vertikal zentriert
+  height: 100vh; // gesamte Höhe des Bildschirms
+}
+
+.special {
+  background-color: red;
+}
