@@ -12,4 +12,14 @@ import { CalculatorComponent } from './calculator/calculator.component';
 })
 export class AppComponent {
   protected title = 'angular-blog-r-steger';
+  public backgroundRed = false;
+  public receivedMessage = '';
+
+  public toggleBackground() {
+    this.backgroundRed = !this.backgroundRed;
+  }
+
+  onMessageReceived(msg: string) {
+    this.receivedMessage = msg;
+  }
 }

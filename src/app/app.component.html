@@ -347,7 +347,6 @@
       </div>
     </div>
   </div>
-  <mat-slide-toggle>Toggle me!</mat-slide-toggle>
 </main>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -360,5 +359,12 @@
 
 <router-outlet />
 
-<app-calculator />
+<mat-slide-toggle (change)="toggleBackground()"
+  >Make background Red</mat-slide-toggle
+>
+<p>{{ receivedMessage }}</p>
+<app-calculator
+  [isSpecial]="backgroundRed"
+  (messageEvent)="onMessageReceived($event)"
+/>
 <!-- Calculator.component anzeigen -->
