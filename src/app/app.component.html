@@ -356,15 +356,15 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<router-outlet />
+<h2><a routerLink="/blog">Blog!</a></h2>
+<router-outlet></router-outlet>
 
 <mat-slide-toggle (change)="toggleBackground()"
   >Make background Red</mat-slide-toggle
 >
 <p>{{ receivedMessage }}</p>
+<!-- Calculator.component anzeigen -->
 <app-calculator
   [isSpecial]="backgroundRed"
   (messageEvent)="onMessageReceived($event)"
 />
-<!-- Calculator.component anzeigen -->
