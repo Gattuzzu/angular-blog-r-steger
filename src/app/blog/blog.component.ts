@@ -1,10 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { BlogService } from './../service/blog.service';
+import { RouterModule, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
-  imports: [CommonModule],
+  imports: [RouterModule, RouterOutlet],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
   standalone: true,
@@ -37,7 +37,7 @@ import { BlogService } from './../service/blog.service';
 })
 export class BlogComponent implements OnInit {
   blogService = inject(BlogService);
-  title = 'angular-blogify-tobias-ragosa';
+  title = 'Blog';
 
   ngOnInit() {
     this.blogService.loadBlogs();
