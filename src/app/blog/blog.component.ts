@@ -1,10 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { BlogService } from './../service/blog.service';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+
+import { BlogService } from '../service/blog.service';
 
 @Component({
   selector: 'app-blog',
-  imports: [RouterModule],
+  imports: [RouterModule, RouterLink, MatCardModule],
   styleUrl: './blog.component.scss',
   standalone: true,
   template: `
@@ -15,18 +17,34 @@ import { RouterModule } from '@angular/router';
     } @else {
       <div class="blog-container">
         @for (blog of blogs; track blog.id) {
-          <article class="blog-entry">
+          <mat-card
+            class="blog-card"
+            appearance="outlined"
+            [routerLink]="['/blog/', blog.id]"
+          >
+            <p>{{ blog.id }}</p>
+            <mat-card-header>
+              <mat-card-title>{{ blog.title }}</mat-card-title>
+              <mat-card-subtitle>{{ blog.author }}</mat-card-subtitle>
+            </mat-card-header>
             <img
+              mat-card-image
               [src]="
-                blog.headerImageUrl && blog.headerImageUrl !== 'string'
+                blog.headerImageUrl !== '' &&
+                typeof blog.headerImageUrl === 'string'
                   ? blog.headerImageUrl
-                  : 'assets/images/platzhalter.png'
+                  : 'assets/images/pictureNotFound.png'
               "
-              alt="Header Image"
+              alt="Missing Picture"
             />
-            <h2>{{ blog.title }}</h2>
-            <p>{{ blog.contentPreview }}</p>
-          </article>
+            <mat-card-content>
+              <p>{{ blog.contentPreview }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button matButton>LIKE</button>
+              <button matButton>SHARE</button>
+            </mat-card-actions>
+          </mat-card>
         } @empty {
           <p>Keine Blogeinträge vorhanden.</p>
         }
