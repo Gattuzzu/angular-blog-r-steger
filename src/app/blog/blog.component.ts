@@ -1,11 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { BlogService } from './../service/blog.service';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-blog',
-  imports: [RouterModule, RouterOutlet],
-  templateUrl: './blog.component.html',
+  imports: [RouterModule],
   styleUrl: './blog.component.scss',
   standalone: true,
   template: `
