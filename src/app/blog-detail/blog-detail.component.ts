@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { BlogEntry } from '../service/blog.service';
-import { BlogService } from '../service/blog.service';
+import { BlogEntry } from '../service/blog/blog.service';
 
 @Component({
   selector: 'app-blog-detail',
@@ -29,24 +28,9 @@ export class BlogDetailComponent implements OnInit {
   blogId: string | null = null;
   blog: BlogEntry | null = null;
 
-  constructor(
-    private route: ActivatedRoute,
-    private blogService: BlogService,
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.blogId = this.route.snapshot.paramMap.get('id');
-    if (this.blogId != null) {
-      this.blogService.loadBlog(this.blogId).subscribe({
-        next: (loadedBlog) => {
-          this.blog = loadedBlog;
-          console.log('Blog ' + this.blogId + ' erfolgreich geladen');
-        },
-        error: (err) => {
-          console.error('Fehler beim Laden vom Blog ' + this.blogId);
-          console.error(err);
-        },
-      });
-    }
+    this.blog = this.route.snapshot.data['data'];
   }
 }
