@@ -33,7 +33,7 @@ import { BlogService } from '../service/blog.service';
                 blog.headerImageUrl !== '' &&
                 typeof blog.headerImageUrl === 'string'
                   ? blog.headerImageUrl
-                  : 'assets/images/pictureNotFound.png'
+                  : 'images/pictureNotFound.png'
               "
               alt="Missing Picture"
             />
