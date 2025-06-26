@@ -73,5 +73,13 @@
   "lint-staged": {
     "*.{ts,js,html}": "eslint --cache --fix",
     "*.{ts,js,html,css,scss,less,md}": "prettier --write"
+  },
+  "madge": {
+    "fontSize": "10px",
+    "graphVizOptions": {
+      "G": {
+        "rankdir": "LR"
+      }
+    }
   }
 }
