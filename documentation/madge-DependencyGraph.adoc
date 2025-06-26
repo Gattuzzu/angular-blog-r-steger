@@ -30,4 +30,4 @@ madge --image graph.svg dist/angular-blog-r-steger
 ----
 
 ## Aktuelle Dependency im Projekt
-image::graph.svg[]
+image::./../graph.svg[]
