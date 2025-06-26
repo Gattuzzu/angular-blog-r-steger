@@ -1,0 +1,33 @@
+# Madge
+
+## Install Madge
+Um Madge zu installiern muss folgender Code im Terminal abgesetz werden:
+[source, shell]
+----
+npm -g install madge
+----
+
+## How to use Madge
+Um Madge zu benutzen und die gewünschten JavaScript Files zu erfassen muss alls erstes das Angular Projekt gebaut werden.
+[source, shell]
+----
+npm run build
+----
+
+Anschliessend kann man dan mit folgendem Befehl die JavaScript Dateien von Madge erfassen lassen.
+Wichtig ist, dass man den Ausgabeordner angibt. Da Madge nur JavaScript Dateien erfassen kann.
+Zudem sollte man die Testklassen nicht mit aufnehmen, da dies sehr Viele Dateien sind.
+[source, shell]
+----
+madge dist/angular-blog-r-steger
+----
+
+Damit man nun auch Bilder erstellen kann, muss man https://www.graphviz.org/download/[Graphviz] auf dem PC installieren.
+Anschliessend kann mit folgendem Befehl ein Bild von den Abhängigkeiten im Projekt erstellt werden:
+[source, shell]
+----
+madge --image graph.svg dist/angular-blog-r-steger
+----
+
+## Aktuelle Dependency im Projekt
+image::./../graph.svg[]

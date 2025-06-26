@@ -1,0 +1,25 @@
+.hamburger {
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1000; /* Sicherstellen, dass es über anderen Elementen liegt */
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 5px 0;
+  transition: 0.4s;
+}
+
+.hamburger.open .bar1 {
+  transform: translateY(8px) rotate(-45deg);
+}
+
+.hamburger.open .bar2 {
+  opacity: 0;
+}
+
+.hamburger.open .bar3 {
+  transform: translateY(-8px) rotate(45deg);
+}

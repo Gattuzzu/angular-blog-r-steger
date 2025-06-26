@@ -1,0 +1,28 @@
+@import "../../styles/colors.scss";
+
+.blog-detail {
+  display: flex;
+  justify-content: center;
+
+  .blog-content {
+    margin: 20px;
+    padding: 15px 25px;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 50px;
+    background-color: $color-primary-light;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        margin-right: 5px;
+      }
+    }
+
+    .author {
+      padding-left: 20px;
+    }
+  }
+}

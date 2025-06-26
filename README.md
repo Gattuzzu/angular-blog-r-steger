@@ -15,10 +15,19 @@ Das Frontende wird mit Angular umgesetzt.
 
 ## Wie habe ich Angular installiert
 
-Siehe dazu [How to install Angular](./howToInstallAngular.adoc)
+Siehe dazu [How to install Angular](./documentation/howToInstallAngular.adoc)
 Dort sind sowohl meine Schritte, wie auch Probleme, welche im verlauf vom erstellen des Angular Projekts und insbesondere bezüglich dem Deployen hatte, beschrieben.
 
-## Weitere Infos vom standart Readme
+## Madge Dependency Graph verwenden
+
+Madge verwenden um die Abhängigkeiten zwischen den Klassen im Projekt sichtbar zu machen und zu prüfen.
+Siehe dazu [Madge-DependencyGraph](./documentation/madge-DependencyGraph.adoc)
+
+### Aktuelle Dependency im Projekt
+
+![Projekt Dependency](./graph.svg)
+
+## Weitere Infos vom standard Readme
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 

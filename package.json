@@ -30,6 +30,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@angular/animations": "^20.0.5",
     "@angular/cdk": "^20.0.2",
     "@angular/common": "^20.0.1",
     "@angular/compiler": "^20.0.1",
@@ -72,5 +73,13 @@
   "lint-staged": {
     "*.{ts,js,html}": "eslint --cache --fix",
     "*.{ts,js,html,css,scss,less,md}": "prettier --write"
+  },
+  "madge": {
+    "fontSize": "10px",
+    "graphVizOptions": {
+      "G": {
+        "rankdir": "LR"
+      }
+    }
   }
 }
