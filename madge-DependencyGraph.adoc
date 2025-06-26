@@ -28,3 +28,6 @@ Anschliessend kann mit folgendem Befehl ein Bild von den Abhängigkeiten im Proj
 ----
 madge --image graph.svg dist/angular-blog-r-steger
 ----
+
+## Aktuelle Dependency im Projekt
+image::graph.svg[]

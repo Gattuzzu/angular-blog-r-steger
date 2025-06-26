@@ -23,6 +23,10 @@ Dort sind sowohl meine Schritte, wie auch Probleme, welche im verlauf vom erstel
 Madge verwenden um die Abhängigkeiten zwischen den Klassen im Projekt sichtbar zu machen und zu prüfen.
 Siehe dazu [Madge-DependencyGraph](./madge-DependencyGraph.adoc)
 
+### Aktuelle Dependency im Projekt
+
+![Projekt Dependency](./graph.svg)
+
 ## Weitere Infos vom standard Readme
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
