@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+
 import { BlogEntryPreview } from '../../core/service/blog/blog.service';
 
 @Component({
