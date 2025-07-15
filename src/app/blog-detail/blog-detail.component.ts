@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { BlogEntry } from '../service/blog/blog.service';
 import { Comment } from '../service/blog/blog.service';
 
 @Component({
   selector: 'app-blog-detail',
-  imports: [],
+  imports: [RouterLink],
   template: `
     <div class="blog-detail">
       @if (blog === null) {
@@ -38,6 +38,9 @@ import { Comment } from '../service/blog/blog.service';
           }
         </div>
       }
+      <div class="back">
+        <button [routerLink]="['/blog/']">Zurück</button>
+      </div>
     </div>
   `,
   styleUrl: './blog-detail.component.scss',
