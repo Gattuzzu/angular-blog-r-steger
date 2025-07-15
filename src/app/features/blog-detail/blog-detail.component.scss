@@ -1,4 +1,4 @@
-@import "../../styles/colors.scss";
+@use "../../../styles/colors.scss";
 
 .blog-detail {
   display: flex;
@@ -11,7 +11,7 @@
     width: 80%;
     max-width: 800px;
     border-radius: 50px;
-    background-color: $color-primary-light;
+    background-color: colors.$color-primary-light;
 
     div {
       display: flex;
@@ -71,7 +71,7 @@
       margin: 20px;
       margin-bottom: 0px;
       border-radius: 50px;
-      background-color: $color-primary-light;
+      background-color: colors.$color-primary-light;
     }
   }
 
@@ -86,18 +86,18 @@
     margin-bottom: 20px;
 
     button {
-      background-color: $color-primary;
-      color: $color-text-icons;
+      background-color: colors.$color-primary;
+      color: colors.$color-text-icons;
       width: 20%;
       height: 30px;
       // border: none;
       border-radius: 5px;
-      border-color: $color-primary-dark;
+      border-color: colors.$color-primary-dark;
     }
 
     button:hover {
-      background-color: $color-primary-light;
-      color: $color-text-primary;
+      background-color: colors.$color-primary-light;
+      color: colors.$color-text-primary;
     }
   }
 }

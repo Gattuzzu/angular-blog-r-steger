@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 
-import { BlogService } from '../service/blog/blog.service';
+import { BlogService } from '../../core/service/blog/blog.service';
 
 @Component({
   selector: 'app-blog',

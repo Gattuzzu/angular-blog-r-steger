@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { BlogDetailComponent } from './blog-detail.component';
-import { routes } from '../app.routes';
+import { routes } from '../../app.routes';
 
 describe('BlogDetailComponent', () => {
   // let component: BlogDetailComponent;

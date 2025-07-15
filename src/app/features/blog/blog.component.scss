@@ -1,4 +1,4 @@
-@import "../../styles/colors.scss";
+@use "../../../styles/colors.scss";
 
 h1 {
   text-align: center;
@@ -13,8 +13,8 @@ h1 {
     align-items: center;
     width: 400px;
     margin: 10px;
-    background-color: $color-primary-light;
-    color: $color-text-primary;
+    background-color: colors.$color-primary-light;
+    color: colors.$color-text-primary;
 
     mat-card-header {
       margin-bottom: 10px;
@@ -22,7 +22,7 @@ h1 {
       mat-card-title,
       mat-card-subtitle {
         text-align: center;
-        color: $color-text-primary;
+        color: colors.$color-text-primary;
       }
     }
 

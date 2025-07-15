@@ -1,19 +1,18 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { routes } from '../app.routes';
-import { NavbarComponent } from './navbar.component';
-import { HamburgerIconComponent } from './hamburger-icon/hamburger-icon.component';
+import { BlogComponent } from './blog.component';
+import { routes } from '../../app.routes';
 
-describe('NavbarComponent', () => {
-  let component: NavbarComponent;
-  let fixture: ComponentFixture<NavbarComponent>;
+describe('BlogComponent', () => {
+  let component: BlogComponent;
+  let fixture: ComponentFixture<BlogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavbarComponent, HamburgerIconComponent],
+      imports: [BlogComponent],
       providers: [
         provideRouter(routes),
         provideHttpClient(),
@@ -21,7 +20,7 @@ describe('NavbarComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(NavbarComponent);
+    fixture = TestBed.createComponent(BlogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

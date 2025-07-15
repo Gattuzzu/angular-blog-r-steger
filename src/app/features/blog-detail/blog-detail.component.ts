@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import { BlogEntry } from '../service/blog/blog.service';
-import { Comment } from '../service/blog/blog.service';
+import { BlogEntry } from '../../core/service/blog/blog.service';
+import { Comment } from '../../core/service/blog/blog.service';
 
 @Component({
   selector: 'app-blog-detail',
