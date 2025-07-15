@@ -1,5 +1,3 @@
-@use "../../../styles/colors.scss";
-
 h1 {
   text-align: center;
 }
@@ -8,27 +6,4 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-
-  mat-card {
-    align-items: center;
-    width: 400px;
-    margin: 10px;
-    background-color: colors.$color-primary-light;
-    color: colors.$color-text-primary;
-
-    mat-card-header {
-      margin-bottom: 10px;
-
-      mat-card-title,
-      mat-card-subtitle {
-        text-align: center;
-        color: colors.$color-text-primary;
-      }
-    }
-
-    img {
-      width: 90%;
-      align-self: center;
-    }
-  }
 }
