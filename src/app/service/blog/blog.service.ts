@@ -19,10 +19,18 @@ export interface BlogEntry {
   author: string;
   createdAt: string;
   likes: number;
-  comments: [];
+  comments: Comment[];
   createdByMe: boolean;
   likedByMe: boolean;
   updatedAt: string;
+}
+
+export interface Comment {
+  id: number;
+  content: string;
+  author: string;
+  updatedAt: string;
+  createdAt: string;
 }
 
 @Injectable({

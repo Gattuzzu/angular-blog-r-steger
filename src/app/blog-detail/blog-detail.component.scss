@@ -2,7 +2,8 @@
 
 .blog-detail {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
   .blog-content {
     margin: 20px;
@@ -21,8 +22,55 @@
       }
     }
 
-    .author {
-      padding-left: 20px;
+    .date {
+      margin-top: 0;
+    }
+
+    .end {
+      display: flex;
+      justify-content: space-between;
+
+      .author {
+        padding-left: 20px;
+        width: 80%;
+      }
+
+      .likes {
+        width: 20%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+
+        img {
+          width: 5%;
+          min-width: 30px;
+          object-fit: contain;
+        }
+
+        p {
+          text-align: right;
+          height: auto;
+          margin: 0;
+          padding: 0;
+          min-width: 30px;
+        }
+      }
+    }
+  }
+
+  .comments {
+    width: 80%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .comment {
+      margin: 20px;
+      margin-bottom: 0px;
+      border-radius: 50px;
+      background-color: $color-primary-light;
     }
   }
 }
