@@ -1,0 +1,71 @@
+@use "../../../styles/colors.scss";
+
+.blog-content {
+  margin: 20px;
+  padding: 15px 25px;
+  width: 80%;
+  max-width: 800px;
+  border-radius: 50px;
+  background-color: colors.$color-primary-light;
+
+  div {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      margin-right: 5px;
+    }
+  }
+
+  .date {
+    margin-top: 0;
+  }
+
+  .end {
+    display: flex;
+    justify-content: space-between;
+
+    .author {
+      padding-left: 20px;
+      width: 80%;
+    }
+
+    .likes {
+      width: 20%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      img {
+        width: 5%;
+        min-width: 30px;
+        object-fit: contain;
+      }
+
+      p {
+        text-align: right;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        min-width: 30px;
+      }
+    }
+  }
+}
+
+.comments {
+  width: 80%;
+  max-width: 800px;
+  padding: 0px 25px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .comment {
+    margin: 20px;
+    margin-bottom: 0px;
+    border-radius: 50px;
+    background-color: colors.$color-primary-light;
+  }
+}

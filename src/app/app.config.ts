@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { GlobalErrorHandlerService } from './errorHandler/global-error-handler.service';
+import { GlobalErrorHandlerService } from './core/errorHandler/global-error-handler.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
