@@ -3,7 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { z } from 'zod';
 
-const BlogEntryPreviewSchema = z.object({
+export const BlogEntryPreviewSchema = z.object({
   id: z.number().int().positive(),
   title: z.string(),
   contentPreview: z.string(),
@@ -14,7 +14,7 @@ const BlogEntryPreviewSchema = z.object({
 });
 export type BlogEntryPreview = z.infer<typeof BlogEntryPreviewSchema>;
 
-const CommentSchema = z.object({
+export const CommentSchema = z.object({
   id: z.number().int().positive(),
   content: z.string(),
   author: z.string().min(3).max(10),
@@ -23,7 +23,7 @@ const CommentSchema = z.object({
 });
 export type Comment = z.infer<typeof CommentSchema>;
 
-const BlogEntrySchema = z.object({
+export const BlogEntrySchema = z.object({
   id: z.number().int().positive(),
   title: z.string(),
   content: z.string(),
