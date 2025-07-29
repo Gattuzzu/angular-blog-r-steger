@@ -1,37 +1,41 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
+import { z } from 'zod';
 
-export interface BlogEntryPreview {
-  id: number;
-  title: string;
-  contentPreview: string;
-  headerImageUrl: string;
-  author: string;
-  createdAt: string;
-  likes: number;
-}
+const BlogEntryPreviewSchema = z.object({
+  id: z.number().int().positive(),
+  title: z.string(),
+  contentPreview: z.string(),
+  headerImageUrl: z.string().url().optional(),
+  author: z.string().min(3).max(100),
+  createdAt: z.string(),
+  likes: z.number().int().nonnegative(),
+});
+export type BlogEntryPreview = z.infer<typeof BlogEntryPreviewSchema>;
 
-export interface BlogEntry {
-  id: number;
-  title: string;
-  content: string;
-  author: string;
-  createdAt: string;
-  likes: number;
-  comments: Comment[];
-  createdByMe: boolean;
-  likedByMe: boolean;
-  updatedAt: string;
-}
+const CommentSchema = z.object({
+  id: z.number().int().positive(),
+  content: z.string(),
+  author: z.string().min(3).max(10),
+  updatedAt: z.string(),
+  createdAt: z.string(),
+});
+export type Comment = z.infer<typeof CommentSchema>;
 
-export interface Comment {
-  id: number;
-  content: string;
-  author: string;
-  updatedAt: string;
-  createdAt: string;
-}
+const BlogEntrySchema = z.object({
+  id: z.number().int().positive(),
+  title: z.string(),
+  content: z.string(),
+  author: z.string().min(3).max(100),
+  createdAt: z.string(),
+  likes: z.number().int().nonnegative(), // Nur Positiv und 0
+  comments: CommentSchema.array(),
+  createdByMe: z.boolean(),
+  likedByMe: z.boolean(),
+  updatedAt: z.string(),
+});
+export type BlogEntry = z.infer<typeof BlogEntrySchema>;
 
 @Injectable({
   providedIn: 'root',
@@ -50,8 +54,22 @@ export class BlogService {
     this.http.get<{ data: BlogEntryPreview[] }>(this.apiUrl).subscribe({
       next: (res) => {
         console.log('Empfangene Daten:', res.data);
-        this.blogEntries.set(res.data);
-        this.loading.set(false);
+
+        // Validierung
+        try {
+          res.data.forEach((entry) => BlogEntryPreviewSchema.parse(entry));
+          console.log('Validation passed.');
+          this.blogEntries.set(res.data);
+          this.loading.set(false);
+        } catch (error) {
+          if (error instanceof z.ZodError) {
+            for (const issue of error.issues) {
+              console.error('Validation failed: ', issue.message);
+            }
+          } else {
+            console.error('Validation failed, non Zod error', error);
+          }
+        }
       },
       error: (err) => {
         console.error('Fehler beim Laden:', err);
@@ -64,6 +82,20 @@ export class BlogService {
     return this.http.get<BlogEntry>(`${this.apiUrl}/${id}`).pipe(
       map((res) => {
         console.log('Empfangene Daten (innerhalb des Pipe-Operators):', res);
+
+        // Validierung
+        try {
+          BlogEntrySchema.parse(res);
+          console.log('Validation passed.');
+        } catch (error) {
+          if (error instanceof z.ZodError) {
+            for (const issue of error.issues) {
+              console.error('Validation failed: ', issue.message);
+            }
+          } else {
+            console.error('Validation failed, non Zod error', error);
+          }
+        }
         return res;
       }),
       catchError((err) => {
