@@ -44,8 +44,7 @@ export class BlogService {
   blogEntries = signal<BlogEntryPreview[]>([]);
   loading = signal(true);
 
-  private apiUrl =
-    'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io/entries';
+  private apiUrl = 'blog-api/entries';
 
   private http = inject(HttpClient);
 
