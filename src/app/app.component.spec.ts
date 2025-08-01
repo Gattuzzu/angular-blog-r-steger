@@ -1,7 +1,7 @@
 import { provideRouter, RouterModule } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 import { routes } from './app.routes';
@@ -12,7 +12,7 @@ describe('App', () => {
       imports: [AppComponent, RouterModule],
       providers: [
         provideRouter(routes),
-        provideHttpClient(),
+        provideHttpClient(withFetch()),
         provideHttpClientTesting(),
       ],
     }).compileComponents();

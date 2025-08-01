@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BlogService } from './blog.service';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('BlogService', () => {
@@ -8,7 +8,11 @@ describe('BlogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), BlogService],
+      providers: [
+        provideHttpClient(withFetch()),
+        provideHttpClientTesting(),
+        BlogService,
+      ],
     });
     service = TestBed.inject(BlogService);
   });

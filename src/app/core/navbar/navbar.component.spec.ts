@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
-import { routes } from '../app.routes';
+import { routes } from '../../app.routes';
 import { NavbarComponent } from './navbar.component';
 import { HamburgerIconComponent } from './hamburger-icon/hamburger-icon.component';
 
@@ -16,7 +16,7 @@ describe('NavbarComponent', () => {
       imports: [NavbarComponent, HamburgerIconComponent],
       providers: [
         provideRouter(routes),
-        provideHttpClient(),
+        provideHttpClient(withFetch()),
         provideHttpClientTesting(),
       ],
     }).compileComponents();

@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -8,6 +8,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
   handleError(error: Error): void {
     const message = error.message ? error.message : error.toString();
     this.postCustomData(error, message);
+    console.log('Das ist aus dem Error Handler.');
     if (environment.production) {
       window.location.href = '/error';
     } else {

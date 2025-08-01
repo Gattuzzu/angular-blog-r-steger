@@ -1,14 +1,21 @@
 .hamburger {
   cursor: pointer;
-  padding: 10px;
+  padding: 0;
   z-index: 1000; /* Sicherstellen, dass es über anderen Elementen liegt */
+  background-color: #333;
+  border: none;
+}
+
+.hamburger:hover {
+  background-color: #575757;
+  border-radius: 4px;
 }
 
 .hamburger div {
   width: 25px;
   height: 3px;
   background-color: white;
-  margin: 5px 0;
+  margin: 4.5px 0;
   transition: 0.4s;
 }
 

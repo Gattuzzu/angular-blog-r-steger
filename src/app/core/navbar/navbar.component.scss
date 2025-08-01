@@ -5,10 +5,15 @@
   background-color: #333;
   padding: 15px;
   color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
 }
 
 .nav-links {
   display: flex;
+  padding-right: 30px;
   gap: 20px;
 }
 
@@ -39,14 +44,14 @@ app-hamburger-icon {
   .nav-links {
     flex-direction: column;
     position: absolute;
-    top: 60px; /* Unterhalb der Navbar */
+    top: 70px; /* Unterhalb der Navbar */
     left: 0;
     width: 100%;
     background-color: #333;
     padding: 20px 0;
     border-top: 1px solid #555;
     transform: translateY(-100%); /* Startposition oberhalb des Viewports */
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     opacity: 0;
     pointer-events: none; /* Deaktiviert Klicks, wenn Menü geschlossen */
   }

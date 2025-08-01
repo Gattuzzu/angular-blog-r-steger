@@ -1,0 +1,33 @@
+@use "../../../styles/colors.scss";
+
+.blog-detail {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  .back {
+    width: 80%;
+    max-width: 800px;
+    padding: 0px 25px;
+    // margin-left: 70%;
+    // margin-right: 10%;
+    display: flex;
+    justify-content: right;
+    margin-bottom: 20px;
+
+    button {
+      background-color: colors.$color-primary;
+      color: colors.$color-text-icons;
+      width: 20%;
+      height: 30px;
+      // border: none;
+      border-radius: 5px;
+      border-color: colors.$color-primary-dark;
+    }
+
+    button:hover {
+      background-color: colors.$color-primary-light;
+      color: colors.$color-text-primary;
+    }
+  }
+}
