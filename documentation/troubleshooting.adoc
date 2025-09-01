@@ -64,3 +64,13 @@ Im Terminal von VsCode absetzen:
 ----
 npm install
 ----
+
+## Angular DevTools
+
+Wenn man die Angular DevTools verwenden möchte, muss man vermutlich die Applikation mit folgendem Befehl erst builden.
+[source, shell]
+----
+ng build -c development
+----
+Zudem funktioniert das Debugging im automatisch geöffnetem Chrom Fenster nicht. Dies scheint nicht alle extensions zu unterstützen, so auch die Angular DevTools.
+Wenn man aber den Browser Manuell öffnet, dann funktioniert es einwandfrei.
