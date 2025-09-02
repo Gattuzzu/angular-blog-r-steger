@@ -9,7 +9,7 @@ export const blogDetailResolver: ResolveFn<BlogEntry | null> = (
   const dateService = inject(BlogService);
   const blogId: string | null = route.paramMap.get('id');
   if (blogId != null) {
-    return dateService.loadBlog(blogId);
+    return dateService.loadBlogById(blogId);
   }
   return of(null);
 };

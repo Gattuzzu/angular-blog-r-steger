@@ -56,10 +56,30 @@ interface GetBlogsFilter {
   searchString: string;
 }
 
+interface BlogDetailState {
+  isLoading: boolean;
+  blog: BlogEntry | null;
+  error: Error | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
+  private apiUrl =
+    'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io/entries';
+
+  private http = inject(HttpClient);
+
+  // constructor
+  constructor() {
+    this.createBlogsRequest();
+    // this.createBlogDetailRequest(); // Wird nur benötigt, wenn die Abfrage über das Subject gemacht wird
+  }
+
+  /* ================================================= 
+    BlogPreview
+  ================================================= */
   getBlogsAction = new Subject<GetBlogsFilter>();
 
   // state
@@ -98,13 +118,7 @@ export class BlogService {
     }));
   }
 
-  private apiUrl =
-    'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io/entries';
-
-  private http = inject(HttpClient);
-
-  // constructor
-  constructor() {
+  createBlogsRequest() {
     this.getBlogsAction
       .pipe(
         tap(() => this.setLoadingState()),
@@ -147,33 +161,81 @@ export class BlogService {
     this.getBlogsAction.next(filter);
   }
 
-  loadBlog(id: string): Observable<BlogEntry | null> {
+  /* ================================================= 
+    Blogdetail
+  ================================================= */
+
+  // Die Methode, die das Observable für den Resolver (blog-detail-resolver) zurückgibt.
+  loadBlogById(id: string): Observable<BlogEntry | null> {
+    this.setLoadingStateDetail(); // Nicht notwendig -> Nur für state überwachung, was die blog-detail-view nicht benötigt, da der Resolver erst auf die neue Seite umschaltet, sobald das Objekt geladen ist.
     return this.http.get<BlogEntry>(`${this.apiUrl}/${id}`).pipe(
       map((res) => {
-        console.log('Empfangene Daten (innerhalb des Pipe-Operators):', res);
-
-        // Validierung
-        try {
-          BlogEntrySchema.parse(res);
-          console.log('Validation passed.');
-        } catch (error) {
-          if (error instanceof z.ZodError) {
-            for (const issue of error.issues) {
-              console.error('Validation failed: ', issue.message);
-            }
-          } else {
-            console.error('Validation failed, non Zod error', error);
-          }
-        }
-        return res;
+        const blogEntry = BlogEntrySchema.parse(res);
+        this.setLoadedBlogDetail(blogEntry); // Nicht notwendig, ganzer Map Block könnte durch "map((res) => BlogEntrySchema.parse(res))," ersetzt werden
+        return blogEntry;
       }),
-      catchError((err) => {
-        console.error(
-          'Fehler beim Laden (innerhalb des catchError-Operators):',
-          err,
-        );
+      catchError((error) => {
+        this.setErrorDetail(error);
+        console.error('Fehler beim Laden des Blog-Eintrags:', error);
         return of(null);
       }),
     );
+  }
+
+  // Diese Methode nutzt das gleiche Observable wie loadBlogById
+  // Wird nur benötigt, wenn die Abfrage über das Subject gemacht wird
+  createBlogDetailRequest() {
+    this.getBlogDetailAction
+      .pipe(
+        debounceTime(200),
+        switchMap((id) => this.loadBlogById(id)),
+      )
+      .subscribe();
+  }
+
+  // Ihre Signal-basierte Logik bleibt bestehen, wird aber hier nicht direkt vom Resolver genutzt.
+  getBlogDetailAction = new Subject<string>();
+
+  // state
+  stateDetail = signal<BlogDetailState>({
+    isLoading: false,
+    blog: null,
+    error: null,
+  });
+
+  // selectors
+  blogDetail = computed(() => this.stateDetail().blog);
+  loadingDetail = computed(() => this.stateDetail().isLoading);
+  errorDetail = computed(() => this.stateDetail().error);
+
+  // reducer
+  setLoadingStateDetail() {
+    this.stateDetail.update((state) => ({
+      ...state,
+      isLoading: true,
+    }));
+  }
+
+  setLoadedBlogDetail(blogEntry: BlogEntry) {
+    this.stateDetail.update((state) => ({
+      ...state,
+      isLoading: false,
+      blog: blogEntry,
+    }));
+  }
+
+  setErrorDetail(error: Error) {
+    this.stateDetail.update((state) => ({
+      ...state,
+      isLoading: false,
+      blog: null,
+      error,
+    }));
+  }
+
+  // async action
+  // Wird nur benötigt, wenn die Abfrage über das Subject gemacht wird
+  rxGetBlogDetail(id: string) {
+    this.getBlogDetailAction.next(id);
   }
 }
