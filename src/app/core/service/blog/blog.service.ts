@@ -1,6 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { debounceTime, Subject, tap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { z } from 'zod';
 
 export const BlogEntryPreviewSchema = z.object({
@@ -43,13 +52,15 @@ interface BlogPreviewState {
   error: Error | null;
 }
 
+interface GetBlogsFilter {
+  searchString: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
-  blogEntries = signal<BlogEntryPreview[]>([]);
-
-  getBlogsAction = new Subject<BlogEntryPreview>();
+  getBlogsAction = new Subject<GetBlogsFilter>();
 
   // state
   state = signal<BlogPreviewState>({
@@ -92,11 +103,77 @@ export class BlogService {
 
   private http = inject(HttpClient);
 
+  // constructor
   constructor() {
-    // async action
-    this.getBlogsAction.pipe(
-      debounceTime(200),
-      tap(() => this.setLoadingState()),
+    this.getBlogsAction
+      .pipe(
+        tap(() => this.setLoadingState()),
+        debounceTime(200),
+        switchMap((filter) => {
+          // Erstellen der HTTP-Parameter basierend auf dem Filterobjekt
+          let params = new HttpParams();
+          if (filter.searchString) {
+            params = params.set('searchstring', filter.searchString);
+          }
+
+          return this.http
+            .get<{ data: BlogEntryPreview[] }>(this.apiUrl, { params })
+            .pipe(
+              tap((res) => {
+                console.log(res.data);
+                // Validierung der Blog Einträge
+                res.data.forEach((entry) =>
+                  BlogEntryPreviewSchema.parse(entry),
+                );
+              }),
+              catchError((error) => {
+                this.setError(error);
+                console.log(error);
+                return of({ data: [] });
+              }),
+            );
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.setLoadedBlogs(res.data);
+        },
+        error: (error) => this.setError(error),
+      });
+  }
+
+  // async action
+  rxGetBlogs(filter: GetBlogsFilter) {
+    this.getBlogsAction.next(filter);
+  }
+
+  loadBlog(id: string): Observable<BlogEntry | null> {
+    return this.http.get<BlogEntry>(`${this.apiUrl}/${id}`).pipe(
+      map((res) => {
+        console.log('Empfangene Daten (innerhalb des Pipe-Operators):', res);
+
+        // Validierung
+        try {
+          BlogEntrySchema.parse(res);
+          console.log('Validation passed.');
+        } catch (error) {
+          if (error instanceof z.ZodError) {
+            for (const issue of error.issues) {
+              console.error('Validation failed: ', issue.message);
+            }
+          } else {
+            console.error('Validation failed, non Zod error', error);
+          }
+        }
+        return res;
+      }),
+      catchError((err) => {
+        console.error(
+          'Fehler beim Laden (innerhalb des catchError-Operators):',
+          err,
+        );
+        return of(null);
+      }),
     );
   }
 }
