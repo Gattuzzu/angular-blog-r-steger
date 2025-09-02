@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { catchError, map, Observable, of } from 'rxjs';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { debounceTime, Subject, tap } from 'rxjs';
 import { z } from 'zod';
 
 export const BlogEntryPreviewSchema = z.object({
@@ -37,74 +37,66 @@ export const BlogEntrySchema = z.object({
 });
 export type BlogEntry = z.infer<typeof BlogEntrySchema>;
 
+interface BlogPreviewState {
+  isLoading: boolean;
+  blogs: BlogEntryPreview[];
+  error: Error | null;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
   blogEntries = signal<BlogEntryPreview[]>([]);
-  loading = signal(true);
+
+  getBlogsAction = new Subject<BlogEntryPreview>();
+
+  // state
+  state = signal<BlogPreviewState>({
+    isLoading: false,
+    blogs: [],
+    error: null,
+  });
+
+  // selectors
+  blogs = computed(() => this.state().blogs);
+  loading = computed(() => this.state().isLoading);
+  error = computed(() => this.state().error);
+
+  // reducer
+  setLoadingState() {
+    this.state.update((state) => ({
+      ...state,
+      isLoading: true,
+    }));
+  }
+
+  setLoadedBlogs(blogEntrys: BlogEntryPreview[]) {
+    this.state.update((state) => ({
+      ...state,
+      isLoading: false,
+      blogs: blogEntrys,
+    }));
+  }
+
+  setError(error: Error) {
+    this.state.update((state) => ({
+      ...state,
+      isLoading: false,
+      error,
+    }));
+  }
 
   private apiUrl =
     'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io/entries';
 
   private http = inject(HttpClient);
 
-  loadBlogs() {
-    this.loading.set(true);
-    this.http.get<{ data: BlogEntryPreview[] }>(this.apiUrl).subscribe({
-      next: (res) => {
-        console.log('Empfangene Daten:', res.data);
-
-        // Validierung
-        try {
-          res.data.forEach((entry) => BlogEntryPreviewSchema.parse(entry));
-          console.log('Validation passed.');
-          this.blogEntries.set(res.data);
-          this.loading.set(false);
-        } catch (error) {
-          if (error instanceof z.ZodError) {
-            for (const issue of error.issues) {
-              console.error('Validation failed: ', issue.message);
-            }
-          } else {
-            console.error('Validation failed, non Zod error', error);
-          }
-        }
-      },
-      error: (err) => {
-        console.error('Fehler beim Laden:', err);
-        this.loading.set(false);
-      },
-    });
-  }
-
-  loadBlog(id: string): Observable<BlogEntry | null> {
-    return this.http.get<BlogEntry>(`${this.apiUrl}/${id}`).pipe(
-      map((res) => {
-        console.log('Empfangene Daten (innerhalb des Pipe-Operators):', res);
-
-        // Validierung
-        try {
-          BlogEntrySchema.parse(res);
-          console.log('Validation passed.');
-        } catch (error) {
-          if (error instanceof z.ZodError) {
-            for (const issue of error.issues) {
-              console.error('Validation failed: ', issue.message);
-            }
-          } else {
-            console.error('Validation failed, non Zod error', error);
-          }
-        }
-        return res;
-      }),
-      catchError((err) => {
-        console.error(
-          'Fehler beim Laden (innerhalb des catchError-Operators):',
-          err,
-        );
-        return of(null);
-      }),
+  constructor() {
+    // async action
+    this.getBlogsAction.pipe(
+      debounceTime(200),
+      tap(() => this.setLoadingState()),
     );
   }
 }
