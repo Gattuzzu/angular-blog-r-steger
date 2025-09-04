@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { BlogEntry } from '../../core/service/blog/blog.service';
@@ -8,6 +8,7 @@ import { BlogDetailViewComponent } from '../../shared/blog-detail-view/blog-deta
 @Component({
   selector: 'app-blog-detail',
   imports: [RouterLink, BlogDetailViewComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="blog-detail">
       <app-blog-detail-view [blog]="this.blog"></app-blog-detail-view>

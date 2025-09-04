@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
@@ -9,6 +9,7 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
   imports: [BlogCardComponent],
   styleUrl: './blog.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h1>Blog Übersicht</h1>
 
