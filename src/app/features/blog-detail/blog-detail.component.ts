@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import { BlogEntry } from '../../core/service/blog/blog.service';
-import { Comment } from '../../core/service/blog/blog.service';
 import { BlogDetailViewComponent } from '../../shared/blog-detail-view/blog-detail-view.component';
 
 @Component({
@@ -11,7 +10,7 @@ import { BlogDetailViewComponent } from '../../shared/blog-detail-view/blog-deta
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="blog-detail">
-      <app-blog-detail-view [blog]="this.blog"></app-blog-detail-view>
+      <app-blog-detail-view [blog]="blog"></app-blog-detail-view>
       <div class="back">
         <button [routerLink]="['/blog/']">Zurück</button>
       </div>
@@ -19,15 +18,6 @@ import { BlogDetailViewComponent } from '../../shared/blog-detail-view/blog-deta
   `,
   styleUrl: './blog-detail.component.scss',
 })
-export class BlogDetailComponent implements OnInit {
-  blogId: string | null = null;
-  blog: BlogEntry | null = null;
-  comments: Comment[] | null = null;
-
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.blog = this.route.snapshot.data['data'];
-    this.comments = this.blog?.comments ?? null;
-  }
+export class BlogDetailComponent {
+  blog = inject(ActivatedRoute).snapshot.data['data'] as BlogEntry;
 }
