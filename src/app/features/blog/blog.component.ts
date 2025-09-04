@@ -15,6 +15,9 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
 
     @if (loading()) {
       <p>Lade Daten...</p>
+      <div class="blog-container">
+        <span class="loader"></span>
+      </div>
     } @else if (error()) {
       <p style="color: red;">{{ error() }}</p>
     } @else {
