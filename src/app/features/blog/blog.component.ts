@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
@@ -9,14 +9,20 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
   imports: [BlogCardComponent],
   styleUrl: './blog.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <h1>Blog Übersicht</h1>
 
-    @if (blogService.loading()) {
+    @if (loading()) {
       <p>Lade Daten...</p>
+      <div class="blog-container">
+        <span class="loader"></span>
+      </div>
+    } @else if (error()) {
+      <p style="color: red;">{{ error() }}</p>
     } @else {
       <div class="blog-container">
-        @for (blog of blogs; track blog.id) {
+        @for (blog of filteredBlogs(); track blog.id) {
           <app-blog-card
             [blogEntry]="blog"
             (blogId)="handleClickOnBlogEntry($event)"
@@ -28,25 +34,19 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
     }
   `,
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent {
   blogService = inject(BlogService);
-  title = 'Blog';
+  router = inject(Router);
 
-  constructor(private _router: Router) {}
+  filteredBlogs = this.blogService.blogs;
+  loading = this.blogService.loading;
+  error = this.blogService.error;
 
-  ngOnInit() {
-    this.blogService.loadBlogs();
-  }
-
-  get blogs() {
-    return this.blogService.blogEntries();
-  }
-
-  get isLoading() {
-    return this.blogService.loading();
+  constructor() {
+    this.blogService.rxGetBlogs({ searchString: '' });
   }
 
   handleClickOnBlogEntry(blogId: number) {
-    this._router.navigate(['/blog/', blogId]);
+    this.router.navigate(['/blog/', blogId]);
   }
 }

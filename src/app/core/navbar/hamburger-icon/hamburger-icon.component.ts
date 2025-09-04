@@ -1,11 +1,17 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 
 @Component({
   selector: 'app-hamburger-icon',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
       class="hamburger"
-      [class.open]="isOpen"
+      [class.open]="isOpen()"
       (click)="toggleMenu.emit()"
       aria-label="Menü umschalten"
     >
@@ -17,7 +23,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   styleUrl: './hamburger-icon.component.scss',
 })
 export class HamburgerIconComponent {
-  @Input() isOpen = false;
+  isOpen = input.required<boolean>();
 
-  @Output() toggleMenu = new EventEmitter<void>();
+  toggleMenu = output<void>();
 }

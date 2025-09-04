@@ -1,4 +1,9 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { BlogEntryPreview } from '../../core/service/blog/blog.service';
@@ -8,8 +13,9 @@ import { BlogEntryPreview } from '../../core/service/blog/blog.service';
   imports: [MatCardModule],
   styleUrl: './blog-card.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    @if (this.blogEntry === null) {
+    @if (this.blogEntry() === null) {
       <p>Fehler beim anzeigen von der Blog Vorschau!</p>
     } @else {
       <mat-card
@@ -17,23 +23,23 @@ import { BlogEntryPreview } from '../../core/service/blog/blog.service';
         appearance="outlined"
         (click)="onClickBlogEntry()"
       >
-        <p>{{ this.blogEntry.id }}</p>
+        <p>{{ this.blogEntry()!.id }}</p>
         <mat-card-header>
-          <mat-card-title>{{ this.blogEntry.title }}</mat-card-title>
-          <mat-card-subtitle>{{ this.blogEntry.author }}</mat-card-subtitle>
+          <mat-card-title>{{ this.blogEntry()!.title }}</mat-card-title>
+          <mat-card-subtitle>{{ this.blogEntry()!.author }}</mat-card-subtitle>
         </mat-card-header>
         <img
           mat-card-image
           [src]="
-            this.blogEntry.headerImageUrl !== '' &&
-            typeof this.blogEntry.headerImageUrl === 'string'
-              ? this.blogEntry.headerImageUrl
+            this.blogEntry()!.headerImageUrl !== '' &&
+            typeof this.blogEntry()!.headerImageUrl === 'string'
+              ? this.blogEntry()!.headerImageUrl
               : 'images/pictureNotFound.png'
           "
           alt="Missing Picture"
         />
         <mat-card-content>
-          <p>{{ this.blogEntry.contentPreview }}</p>
+          <p>{{ this.blogEntry()!.contentPreview }}</p>
         </mat-card-content>
         <mat-card-actions>
           <button matButton>LIKE</button>
@@ -44,13 +50,18 @@ import { BlogEntryPreview } from '../../core/service/blog/blog.service';
   `,
 })
 export class BlogCardComponent {
-  @Input() blogEntry: BlogEntryPreview | null = null;
+  // Deklaration des Input-Signals
+  blogEntry = input.required<BlogEntryPreview>();
 
-  @Output() blogId = new EventEmitter<number>();
+  // Deklaration des Output-Signals
+  blogId = output<number>();
 
   onClickBlogEntry() {
-    if (this.blogEntry?.id) {
-      this.blogId.emit(this.blogEntry.id);
+    // Zugriff auf den Signal-Wert
+    const blogEntryValue = this.blogEntry();
+    if (blogEntryValue?.id) {
+      // Senden des Events
+      this.blogId.emit(blogEntryValue.id);
     }
   }
 }
