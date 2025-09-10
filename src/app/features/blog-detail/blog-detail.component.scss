@@ -19,10 +19,11 @@
       background-color: colors.$color-primary;
       color: colors.$color-text-icons;
       width: 20%;
-      height: 30px;
-      // border: none;
-      border-radius: 5px;
+      height: 40px;
+      border: none;
+      border-radius: 15px;
       border-color: colors.$color-primary-dark;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
 
     button:hover {

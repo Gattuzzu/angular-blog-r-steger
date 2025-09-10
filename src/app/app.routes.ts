@@ -19,6 +19,11 @@ export const routes: Routes = [
       import('./features/blog/blog.component').then((c) => c.BlogComponent), // Lazy Loading aktivieren
   },
   {
+    path: 'add-blog',
+    // component: BlogComponent,
+    loadComponent: () => import('./features/add-blog/add-blog.component'),
+  },
+  {
     path: 'blog/:id',
     // component: BlogDetailComponent, // Wird nicht mehr benötig, da dies Eager Loading ist.
     resolve: { data: blogDetailResolver },

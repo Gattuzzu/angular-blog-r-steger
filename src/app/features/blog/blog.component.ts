@@ -1,12 +1,12 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
 import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogCardComponent],
+  imports: [BlogCardComponent, RouterLink],
   styleUrl: './blog.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +30,7 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
         } @empty {
           <p>Keine Blogeinträge vorhanden.</p>
         }
+        <button [routerLink]="['/add-blog/']">Neuer Blog</button>
       </div>
     }
   `,
