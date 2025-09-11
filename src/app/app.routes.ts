@@ -25,8 +25,7 @@ export const routes: Routes = [
   {
     path: 'blog',
     // component: BlogComponent,
-    loadComponent: () =>
-      import('./features/blog/blog.component').then((c) => c.BlogComponent), // Lazy Loading aktivieren
+    loadComponent: () => import('./features/blog/blog.component'),
   },
   {
     path: 'add-blog',
@@ -38,10 +37,7 @@ export const routes: Routes = [
     path: 'blog/:id',
     // component: BlogDetailComponent, // Wird nicht mehr benötig, da dies Eager Loading ist.
     resolve: { data: blogDetailResolver },
-    loadComponent: () =>
-      import('./features/blog-detail/blog-detail.component').then(
-        (c) => c.BlogDetailComponent,
-      ), // Lazy Loading aktivieren
+    loadComponent: () => import('./features/blog-detail/blog-detail.component'),
   },
   {
     path: 'calculator',

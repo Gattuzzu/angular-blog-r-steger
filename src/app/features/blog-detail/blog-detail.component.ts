@@ -18,6 +18,6 @@ import { BlogDetailViewComponent } from '../../shared/blog-detail-view/blog-deta
   `,
   styleUrl: './blog-detail.component.scss',
 })
-export class BlogDetailComponent {
+export default class BlogDetailComponent {
   blog = inject(ActivatedRoute).snapshot.data['data'] as BlogEntry;
 }

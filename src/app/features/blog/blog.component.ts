@@ -43,7 +43,7 @@ import { StateHandler } from '../../core/state-management/appstate.service';
     }
   `,
 })
-export class BlogComponent {
+export default class BlogComponent {
   blogService = inject(BlogService);
   router = inject(Router);
   stateHandler = inject(StateHandler);
