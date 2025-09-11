@@ -21,7 +21,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',
 })
-export class CalculatorComponent {
+export default class CalculatorComponent {
   @Input() isSpecial = false;
   @Output() messageEvent = new EventEmitter<string>();
   public selected = '';

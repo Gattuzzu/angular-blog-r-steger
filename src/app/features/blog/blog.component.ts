@@ -1,12 +1,18 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  inject,
+  ChangeDetectionStrategy,
+  computed,
+} from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
 import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
+import { StateHandler } from '../../core/state-management/appstate.service';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogCardComponent],
+  imports: [BlogCardComponent, RouterLink],
   styleUrl: './blog.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,13 +36,18 @@ import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
         } @empty {
           <p>Keine Blogeinträge vorhanden.</p>
         }
+        @if (authState().isAuthenticated()) {
+          <button [routerLink]="['/add-blog/']">Neuer Blog</button>
+        }
       </div>
     }
   `,
 })
-export class BlogComponent {
+export default class BlogComponent {
   blogService = inject(BlogService);
   router = inject(Router);
+  stateHandler = inject(StateHandler);
+  authState = computed(this.stateHandler.authState);
 
   filteredBlogs = this.blogService.blogs;
   loading = this.blogService.loading;

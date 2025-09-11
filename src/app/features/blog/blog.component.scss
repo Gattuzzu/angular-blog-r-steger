@@ -1,4 +1,5 @@
 @use "../../../styles/spinner.scss"; // wird benötigt, damit der Spinner angezeigt wird.
+@use "../../../styles/colors.scss";
 
 h1 {
   padding-top: 20px;
@@ -13,4 +14,31 @@ p {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+
+  button {
+    position: fixed;
+    bottom: 20px;
+    right: 50px;
+    padding: 10px 20px;
+    // width: 20%;
+    // height: 40px;
+    background-color: colors.$color-primary;
+    color: colors.$color-text-icons;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+
+  button:hover {
+    background-color: colors.$color-primary-light;
+    color: colors.$color-text-primary;
+  }
+}
+
+@media (max-width: 600px) {
+  .blog-container button {
+    right: 20px; /* Wert für Smartphones und kleinere Bildschirme */
+  }
 }

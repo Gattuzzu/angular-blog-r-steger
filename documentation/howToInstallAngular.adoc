@@ -258,5 +258,28 @@ Im Terminal von VsCode absetzen:
 ng generate service service-name
 ----
 
+
+## Install Authentication
+
+Damit über Keycloak authentifiziert werden kann muss das folgende Modul zu Angular hinzugefügt werden:
+
+[source, shell]
+----
+ng add angular-auth-oidc-client
+----
+
+Anschliessend muss das Modul noch installiert werden:
+
+[source, shell]
+----
+npm install angular-auth-oidc-client
+----
+
+Nun muss der Authentifizierungservice noch konfiguriert werden. Siehe dazu:
+
+. Als erstes muss die Konfig wie folgt für diese Projekt erstellt werden: link:./../src/app/core/auth/auth.config.ts[auth.config.ts]
+. Anschliessend kann die Konfiguration in link:./../src/app/app.config.ts[app.config.ts] geladen werden.
+
+
 ## Trouble Shooting 
 Siehe link:./troubleshooting.adoc[TroubleShooting]

@@ -1,5 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { Authentication } from '../auth';
 
 export enum AppStates {
   onBlogOverview = 'onBlogOverview',
@@ -22,11 +23,13 @@ const initialState: AppState = {
   providedIn: 'root',
 })
 export class StateHandler {
+  readonly authentication = signal(inject(Authentication));
   readonly router = inject(Router);
   readonly stateSignal = signal<AppState>(initialState);
 
   // Signal, das den aktuellen Zustand darstellt
   public readonly actState = computed(() => this.stateSignal().state);
+  public readonly authState = computed(() => this.authentication());
 
   constructor() {
     this.router.events.subscribe((/* event */) => {
