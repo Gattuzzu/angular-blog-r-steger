@@ -1,6 +1,8 @@
+@use "../../../styles/colors.scss";
+
 .navbar {
   display: flex;
-  justify-content: flex-end; /* Links bündig für Desktop */
+  justify-content: space-between;
   align-items: center;
   background-color: #333;
   padding: 15px;
@@ -71,5 +73,45 @@ app-hamburger-icon {
   /* Zeige das Hamburger-Icon auf kleineren Bildschirmen an */
   app-hamburger-icon {
     display: block;
+    margin-right: 30px;
+  }
+}
+
+.user {
+  margin-right: auto;
+  display: flex;
+  justify-content: flex-start;
+
+  button {
+    background-color: #333;
+    padding: 15px;
+    color: colors.$color-accent;
+    border: none;
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #575757;
+    border-radius: 4px;
+  }
+
+  .circle {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 25px;
+    color: colors.$color-primary;
+    background-color: colors.$color-accent;
+    text-transform: uppercase;
   }
 }
