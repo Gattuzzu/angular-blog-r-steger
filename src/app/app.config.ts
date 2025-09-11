@@ -15,6 +15,8 @@ import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 
 import { GlobalErrorHandlerService } from './core/errorHandler/global-error-handler.service';
+import { authConfig } from './core/auth/auth.config';
+import { provideAuth } from 'angular-auth-oidc-client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor, errorInterceptor]),
+      withInterceptors([authInterceptor, errorInterceptor, authInterceptor]),
     ),
     {
       provide: ErrorHandler,
@@ -30,6 +32,7 @@ export const appConfig: ApplicationConfig = {
     },
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nich implementiert
     provideAnimations(),
+    provideAuth(authConfig),
   ],
 };
 
