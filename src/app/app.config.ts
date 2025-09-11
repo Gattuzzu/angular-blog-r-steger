@@ -1,8 +1,4 @@
-import {
-  ApplicationConfig,
-  ErrorHandler,
-  provideZoneChangeDetection,
-} from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import {
@@ -14,7 +10,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 
-import { GlobalErrorHandlerService } from './core/errorHandler/global-error-handler.service';
+import { provideGlobalErrorHandler } from './core/errorHandler/provider';
 import { authConfig } from './core/auth/auth.config';
 import { provideAuth } from 'angular-auth-oidc-client';
 
@@ -26,10 +22,7 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([authInterceptor, errorInterceptor, authInterceptor]),
     ),
-    {
-      provide: ErrorHandler,
-      useClass: GlobalErrorHandlerService,
-    },
+    provideGlobalErrorHandler(),
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nich implementiert
     provideAnimations(),
     provideAuth(authConfig),
