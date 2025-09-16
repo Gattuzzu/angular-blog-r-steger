@@ -11,6 +11,7 @@ import {
   tap,
 } from 'rxjs';
 import { z } from 'zod';
+import { environment } from '../../../../environments/environment';
 
 export const BlogEntryPreviewSchema = z.object({
   id: z.number().int().positive(),
@@ -66,8 +67,7 @@ interface BlogDetailState {
   providedIn: 'root',
 })
 export class BlogService {
-  private apiUrl =
-    'https://d-cap-blog-backend---v2.whitepond-b96fee4b.westeurope.azurecontainerapps.io/entries';
+  private apiUrl = environment.serviceUrl;
 
   private http = inject(HttpClient);
 
