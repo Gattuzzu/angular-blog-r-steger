@@ -20,7 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor, errorInterceptor, authInterceptor]),
+      withInterceptors([authInterceptor, errorInterceptor]),
     ),
     provideGlobalErrorHandler(),
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nich implementiert
