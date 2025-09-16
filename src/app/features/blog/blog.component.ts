@@ -1,9 +1,4 @@
-import {
-  Component,
-  inject,
-  ChangeDetectionStrategy,
-  computed,
-} from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
@@ -36,7 +31,7 @@ import { StateHandler } from '../../core/state-management/appstate.service';
         } @empty {
           <p>Keine Blogeinträge vorhanden.</p>
         }
-        @if (authState().isAuthenticated()) {
+        @if (isAuthenticated) {
           <button [routerLink]="['/add-blog/']">Neuer Blog</button>
         }
       </div>
@@ -47,7 +42,7 @@ export default class BlogComponent {
   blogService = inject(BlogService);
   router = inject(Router);
   stateHandler = inject(StateHandler);
-  authState = computed(this.stateHandler.authState);
+  isAuthenticated = this.stateHandler.authState.isAuthenticated();
 
   filteredBlogs = this.blogService.blogs;
   loading = this.blogService.loading;

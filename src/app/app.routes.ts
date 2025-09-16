@@ -9,10 +9,10 @@ import { StateHandler } from './core/state-management/appstate.service';
 
 const authGuard: CanActivateFn = async () => {
   const stateHandler = inject(StateHandler);
-  const roles = await stateHandler.authState().roles();
+  const roles = await stateHandler.authState.roles();
   return (
-    stateHandler.authState().isAuthenticated() &&
-    (roles?.includes('user') ? true : (stateHandler.authState().login(), false))
+    stateHandler.authState.isAuthenticated() &&
+    (roles?.includes('user') ? true : (stateHandler.authState.login(), false))
   );
 };
 
