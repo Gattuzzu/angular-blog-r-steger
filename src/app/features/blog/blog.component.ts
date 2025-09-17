@@ -3,7 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 
 import { BlogService } from '../../core/service/blog/blog.service';
 import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
-import { StateHandler } from '../../core/state-management/appstate.service';
+import { Authentication } from '../../core/auth';
 
 @Component({
   selector: 'app-blog',
@@ -31,7 +31,7 @@ import { StateHandler } from '../../core/state-management/appstate.service';
         } @empty {
           <p>Keine Blogeinträge vorhanden.</p>
         }
-        @if (isAuthenticated) {
+        @if (this.authState.isAuthenticated()) {
           <button [routerLink]="['/add-blog/']">Neuer Blog</button>
         }
       </div>
@@ -41,8 +41,7 @@ import { StateHandler } from '../../core/state-management/appstate.service';
 export default class BlogComponent {
   blogService = inject(BlogService);
   router = inject(Router);
-  stateHandler = inject(StateHandler);
-  isAuthenticated = this.stateHandler.authState.isAuthenticated();
+  authState = inject(Authentication);
 
   filteredBlogs = this.blogService.blogs;
   loading = this.blogService.loading;

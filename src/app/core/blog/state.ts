@@ -1,43 +1,59 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { Router } from '@angular/router';
-// import { RouterStore } from '../../core/state/router';
-import {
-  AddBlogService,
-  CreatedBlog,
-} from '../service/add-blog/add-blog.service';
+import { Action, ActionType, Dispatcher } from '../dispatcher.service';
+import { filter } from 'rxjs';
 
 interface BlogState {
-  error?: string;
+  error: string | undefined;
+  isUploading: boolean;
 }
+
+const initialState: BlogState = {
+  error: undefined,
+  isUploading: false,
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogStore {
-  #state = signal<BlogState>(
-    { error: undefined },
-    { debugName: 'BlogStateService:#state' },
-  );
-  state = this.#state.asReadonly();
+  private dispatcher = inject(Dispatcher);
+  readonly router = inject(Router);
+  readonly stateSignal = signal<BlogState>(initialState);
 
-  private blogService = inject(AddBlogService);
-  private router = inject(Router);
-  // private loadingState = inject(RouterStore);
+  // Selektoren
+  public readonly error = computed(() => this.stateSignal().error);
+  public readonly isUploading = computed(() => this.stateSignal().isUploading);
 
-  async addBlog(blog: CreatedBlog) {
-    this.#state.set({ error: undefined });
+  constructor() {
+    this.dispatcher.action
+      .pipe(filter((action) => action.type === ActionType.SET_UPLOADING_STATE))
+      .subscribe((action) => {
+        const typedAction = action as Action<{ isUploading: boolean }>;
+        this.setUploadingState(typedAction.payload!.isUploading);
+      });
 
-    try {
-      // this.loadingState.setLoadingState(true);
-      await this.blogService.addBlog(blog);
-      this.router.navigate(['/blog']);
-    } catch (error) {
-      // this.loadingState.setLoadingState(false);
-      this.#state.update((state) => ({
-        ...state,
-        error: (error as Error).message,
-      }));
-    }
+    this.dispatcher.action
+      .pipe(
+        filter(
+          (action) => action.type === ActionType.SET_UPLOADING_ERROR_STATE,
+        ),
+      )
+      .subscribe((action) => {
+        const typedAction = action as Action<{ error: string }>;
+        this.setErrorState(typedAction.payload!.error);
+      });
+  }
+
+  setErrorState(newError: string | undefined) {
+    this.stateSignal.update((actState) => ({ ...actState, error: newError }));
+  }
+
+  setUploadingState(value: boolean) {
+    this.stateSignal.update((actState) => ({
+      ...actState,
+      isUploading: value,
+    }));
   }
 }

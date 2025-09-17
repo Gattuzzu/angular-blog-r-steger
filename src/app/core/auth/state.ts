@@ -15,10 +15,10 @@ export class Authentication {
     initialValue: initialState,
   });
 
-  // selectors
+  // Selektoren
+  auth = computed(() => this.authentication());
   isAuthenticated = computed(() => this.authentication().isAuthenticated);
   userData = computed(() => this.authentication().userData);
-  auth = computed(() => this.authentication());
   token = computed(() => this.authentication().accessToken);
 
   roles = computed(() => {

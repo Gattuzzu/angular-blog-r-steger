@@ -19,7 +19,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CreatedBlog } from '../../core/service/add-blog/add-blog.service';
+import {
+  AddBlogService,
+  CreatedBlog,
+} from '../../core/service/add-blog/add-blog.service';
 import { BlogStore } from '../../core/blog/state';
 
 @Component({
@@ -43,7 +46,7 @@ import { BlogStore } from '../../core/blog/state';
     <h1>Blog hinzufügen</h1>
     <form [formGroup]="formTyped" (ngSubmit)="onSubmit()">
       <div class="blog-input">
-        @if (state().error) {
+        @if (blogState.error()) {
           <div class="error-message">
             <mat-icon>error</mat-icon>
             <span
@@ -104,8 +107,8 @@ export default class AddBlogComponent {
   destroyRef = inject(DestroyRef);
   submitButtonDisabled = signal<boolean>(false);
 
-  blogStore = inject(BlogStore);
-  protected state = this.blogStore.state;
+  blogState = inject(BlogStore);
+  addBlogService = inject(AddBlogService);
 
   formTyped = new FormGroup<{
     title: FormControl<string>;
@@ -154,7 +157,7 @@ export default class AddBlogComponent {
         );
 
         // Blog speicher
-        await this.blogStore.addBlog(blogData as CreatedBlog);
+        await this.addBlogService.addBlog(blogData as CreatedBlog);
       } catch (error) {
         console.error('Error submitting blog: ', error);
         this.submitButtonDisabled.set(false);

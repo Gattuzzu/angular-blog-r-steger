@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { HamburgerIconComponent } from './hamburger-icon/hamburger-icon.component';
-import { StateHandler } from '../state-management/appstate.service';
+import { Authentication } from '../auth';
 
 @Component({
   selector: 'app-navbar',
@@ -44,8 +44,7 @@ Rollen:
   imports: [HamburgerIconComponent, RouterLink],
 })
 export class NavbarComponent {
-  readonly stateHandler = inject(StateHandler);
-  readonly authState = this.stateHandler.authState;
+  readonly authState = inject(Authentication);
 
   isMenuOpen = false;
 
