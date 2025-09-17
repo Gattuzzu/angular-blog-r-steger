@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   inject,
   DestroyRef,
-  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
@@ -24,6 +23,7 @@ import {
   CreatedBlog,
 } from '../../core/service/add-blog/add-blog.service';
 import { BlogStore } from '../../core/blog/state';
+import { ActionType, Dispatcher } from '../../core/dispatcher.service';
 
 @Component({
   selector: 'app-add-blog',
@@ -46,7 +46,7 @@ import { BlogStore } from '../../core/blog/state';
     <h1>Blog hinzufügen</h1>
     <form [formGroup]="formTyped" (ngSubmit)="onSubmit()">
       <div class="blog-input">
-        @if (blogState.error()) {
+        @if (this.blogState.error()) {
           <div class="error-message">
             <mat-icon>error</mat-icon>
             <span
@@ -84,14 +84,19 @@ import { BlogStore } from '../../core/blog/state';
           </mat-error>
         </mat-form-field>
         <div class="button-group">
-          <button type="reset" mat-raised-button color="secondary">
+          <button
+            type="reset"
+            mat-raised-button
+            [disabled]="this.blogState.isUploading()"
+            color="secondary"
+          >
             Reset Form
           </button>
           <button
             type="submit"
             class="submit-button"
             mat-raised-button
-            [disabled]="formTyped.invalid"
+            [disabled]="formTyped.invalid || this.blogState.isUploading()"
             color="primary"
           >
             Publish Blog
@@ -105,7 +110,7 @@ import { BlogStore } from '../../core/blog/state';
 })
 export default class AddBlogComponent {
   destroyRef = inject(DestroyRef);
-  submitButtonDisabled = signal<boolean>(false);
+  dispatcher = inject(Dispatcher);
 
   blogState = inject(BlogStore);
   addBlogService = inject(AddBlogService);
@@ -133,6 +138,9 @@ export default class AddBlogComponent {
   });
 
   constructor() {
+    // Der Error soll beim Betretten der Seite auf null gesetzt werden, da noch der letzte Error anstehend ist.
+    this.dispatchErrorState(null);
+
     this.formTyped.valueChanges
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((value) => {
@@ -148,7 +156,7 @@ export default class AddBlogComponent {
 
   async onSubmit() {
     if (this.formTyped.valid) {
-      this.submitButtonDisabled.set(true);
+      this.dispatchUploadingState(true);
 
       try {
         const blogData = this.formTyped.value;
@@ -159,8 +167,10 @@ export default class AddBlogComponent {
         // Blog speicher
         await this.addBlogService.addBlog(blogData as CreatedBlog);
       } catch (error) {
+        this.dispatchErrorState(error);
         console.error('Error submitting blog: ', error);
-        this.submitButtonDisabled.set(false);
+      } finally {
+        this.dispatchUploadingState(false);
       }
     } else {
       this.formTyped.markAllAsTouched();
@@ -174,5 +184,19 @@ export default class AddBlogComponent {
       return { custom: true };
     }
     return null;
+  }
+
+  dispatchUploadingState(value: boolean) {
+    this.dispatcher.dispatch({
+      type: ActionType.SET_UPLOADING_STATE,
+      payload: { isUploading: value },
+    });
+  }
+
+  dispatchErrorState(newError: unknown) {
+    this.dispatcher.dispatch({
+      type: ActionType.SET_UPLOADING_ERROR_STATE,
+      payload: { error: newError },
+    });
   }
 }
