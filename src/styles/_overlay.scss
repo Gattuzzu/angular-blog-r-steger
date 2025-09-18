@@ -1,0 +1,12 @@
+.overlay {
+  position: fixed; /* Deckt den gesamten Viewport ab */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Grauer Schleier mit Transparenz */
+  display: flex; /* Für die Zentrierung des Loaders */
+  justify-content: center; /* Zentriert horizontal */
+  align-items: center; /* Zentriert vertikal */
+  z-index: 9999; /* Stellt sicher, dass es über allem anderen liegt */
+}

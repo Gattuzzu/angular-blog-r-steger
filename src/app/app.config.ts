@@ -7,12 +7,11 @@ import {
   withInterceptors,
 } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 
 import { provideGlobalErrorHandler } from './core/errorHandler/provider';
 import { authConfig } from './core/auth/auth.config';
-import { provideAuth } from 'angular-auth-oidc-client';
+import { provideAuth, authInterceptor } from 'angular-auth-oidc-client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,10 +19,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
       withFetch(),
-      withInterceptors([authInterceptor, errorInterceptor, authInterceptor]),
+      withInterceptors([authInterceptor(), errorInterceptor]),
     ),
     provideGlobalErrorHandler(),
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nich implementiert
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nicht implementiert
     provideAnimations(),
     provideAuth(authConfig),
   ],

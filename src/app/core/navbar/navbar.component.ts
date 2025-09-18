@@ -1,33 +1,33 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { HamburgerIconComponent } from './hamburger-icon/hamburger-icon.component';
-import { StateHandler } from '../state-management/appstate.service';
+import { Authentication } from '../auth';
 
 @Component({
   selector: 'app-navbar',
   template: `
     <nav class="navbar">
       <div class="user">
-        @if (authState().isAuthenticated()) {
+        @if (authState.isAuthenticated()) {
           <div
             class="circle"
             [title]="
-              authState().userData()?.preferred_username +
+              authState.userData()?.preferred_username +
               '
 Rollen:
-	' +
-              authState().roles()?.join(
+  ' +
+              authState.roles()?.join(
                 '
-	'
+  '
               )
             "
           >
-            <span>{{ authState().userData()?.preferred_username[0] }}</span>
+            <span>{{ authState.userData()?.preferred_username[0] }}</span>
           </div>
-          <button (click)="authState().logout()">Logout</button>
+          <button (click)="authState.logout()">Logout</button>
         } @else {
-          <button (click)="authState().login()">Login</button>
+          <button (click)="authState.login()">Login</button>
         }
       </div>
       <div class="nav-links" [class.open]="isMenuOpen">
@@ -44,8 +44,7 @@ Rollen:
   imports: [HamburgerIconComponent, RouterLink],
 })
 export class NavbarComponent {
-  readonly stateHandler = inject(StateHandler);
-  readonly authState = computed(this.stateHandler.authState);
+  readonly authState = inject(Authentication);
 
   isMenuOpen = false;
 

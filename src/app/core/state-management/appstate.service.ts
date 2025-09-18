@@ -1,51 +1,86 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Router } from '@angular/router';
-import { Authentication } from '../auth';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
+import { Dispatcher } from '../dispatcher.service';
 
 export enum AppStates {
   onBlogOverview = 'onBlogOverview',
   onBlogDetail = 'onBlogDetail',
   onBlogCreate = 'onBlogCreate',
   onCalculator = 'onCalculator',
+  onAddBlog = 'onAddBlog',
   onUnknown = 'onUnknown',
 }
 
 // Definieren Sie den Initialen Zustand
 interface AppState {
-  state: AppStates;
+  page: AppStates;
+  isLoading: boolean;
 }
 
 const initialState: AppState = {
-  state: AppStates.onUnknown,
+  page: AppStates.onUnknown,
+  isLoading: false,
 };
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateHandler {
-  readonly authentication = signal(inject(Authentication));
+  private dispatcher = inject(Dispatcher);
   readonly router = inject(Router);
   readonly stateSignal = signal<AppState>(initialState);
 
   // Signal, das den aktuellen Zustand darstellt
-  public readonly actState = computed(() => this.stateSignal().state);
-  public readonly authState = computed(() => this.authentication());
+  // über diese erfolgt der Zugriff von aussen
+  // Selektoren
+  public readonly actPage = computed(() => this.stateSignal().page);
+  public readonly isLoading = computed(() => this.stateSignal().isLoading);
 
   constructor() {
     this.router.events.subscribe((/* event */) => {
       if (this.router.url.match('/blog/[0-9]+')) {
-        this.goToView(AppStates.onBlogDetail);
+        this.setActPageState(AppStates.onBlogDetail);
       } else if (this.router.url.match('/blog')) {
-        this.goToView(AppStates.onBlogOverview);
+        this.setActPageState(AppStates.onBlogOverview);
       } else if (this.router.url.match('/calculator')) {
-        this.goToView(AppStates.onCalculator);
+        this.setActPageState(AppStates.onCalculator);
+      } else if (this.router.url.match('/add-blog')) {
+        this.setActPageState(AppStates.onAddBlog);
+      } else {
+        this.setActPageState(AppStates.onUnknown);
       }
 
-      console.log(this.actState() + ' | ' + this.router.url);
+      console.log(this.actPage() + ' | ' + this.router.url);
+    });
+
+    this.router.events.subscribe((event) => {
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.setLoadingState(true);
+          break;
+        }
+
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError: {
+          this.setLoadingState(false);
+          break;
+        }
+      }
     });
   }
 
-  goToView(newState: AppStates) {
-    this.stateSignal.update((actState) => ({ ...actState, state: newState }));
+  setActPageState(newState: AppStates) {
+    this.stateSignal.update((actState) => ({ ...actState, page: newState }));
+  }
+
+  setLoadingState(value: boolean) {
+    this.stateSignal.update((state) => ({ ...state, isLoading: value }));
   }
 }

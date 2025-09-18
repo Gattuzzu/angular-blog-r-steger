@@ -5,14 +5,14 @@ import { CanActivateFn, RouterModule, Routes } from '@angular/router';
 // import { CalculatorComponent } from './calculator/calculator.component'; // Wird nur bei Eager Loading benötigt
 // import { BlogDetailComponent } from './blog-detail/blog-detail.component'; // Wird nur bei Eager Loading benötigt
 import { blogDetailResolver } from './core/service/blog-detail-resolve/blog-detail-resolve.service';
-import { StateHandler } from './core/state-management/appstate.service';
+import { Authentication } from './core/auth';
 
 const authGuard: CanActivateFn = async () => {
-  const stateHandler = inject(StateHandler);
-  const roles = await stateHandler.authState().roles();
+  const stateHandler = inject(Authentication);
+  const roles = await stateHandler.roles();
   return (
-    stateHandler.authState().isAuthenticated() &&
-    (roles?.includes('user') ? true : (stateHandler.authState().login(), false))
+    stateHandler.isAuthenticated() &&
+    (roles?.includes('user') ? true : (stateHandler.login(), false))
   );
 };
 
