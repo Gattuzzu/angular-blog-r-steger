@@ -4,7 +4,7 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   AbstractControl,
   FormControl,
@@ -12,11 +12,6 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   AddBlogService,
@@ -24,101 +19,24 @@ import {
 } from '../../core/service/add-blog/add-blog.service';
 import { BlogStore } from '../../core/blog/state';
 import { ActionType, Dispatcher } from '../../core/dispatcher.service';
+import AddBlogFormComponent from '../../shared/add-blog/add-blog-form.component';
 
 @Component({
   selector: 'app-add-blog',
   standalone: true,
-  imports: [
-    RouterLink,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
+  imports: [AddBlogFormComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <h1>Blog hinzufügen</h1>
-    <form [formGroup]="formTyped" (ngSubmit)="onSubmit()">
-      @if (this.blogState.isUploading()) {
-        <div class="overlay">
-          <span class="loader"></span>
-        </div>
-      }
-      <div class="blog-input">
-        @if (this.blogState.error()) {
-          <div class="error-message">
-            <mat-icon>error</mat-icon>
-            <span
-              >Oops, der Blog konnte nicht gespeichert werden. Bitte versuchen
-              Sie es später nochmals.</span
-            >
-          </div>
-        }
-        <mat-form-field appearance="fill">
-          <mat-label>Title</mat-label>
-          <input
-            matInput
-            formControlName="title"
-            placeholder="Bitte Titel eingeben."
-          />
-          <mat-error>
-            @if (formTyped.get('title')?.hasError('required')) {
-              <span>Der Titel ist ein Pflichtfeld!</span>
-            } @else if (formTyped.get('title')?.hasError('minlength')) {
-              <span>Der Titel muss mindestens 3 Zeichen beinhalten!</span>
-            } @else if (formTyped.get('title')?.hasError('maxlength')) {
-              <span>Der Titel darf maximal 100 Zeichen beinhalten!</span>
-            } @else if (formTyped.get('title')?.hasError('pattern')) {
-              <span>Der Titel muss mit einem Grossbuchstaben beginnen!</span>
-            } @else if (formTyped.get('title')?.hasError('custom')) {
-              <span>Der Titel darf nicht "Test" sein!</span>
-            }
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field appearance="fill">
-          <mat-label>Text</mat-label>
-          <textarea
-            matInput
-            rows="20"
-            formControlName="content"
-            placeholder="Bitte Text eingeben."
-          ></textarea>
-          <mat-error>
-            @if (formTyped.get('content')?.hasError('required')) {
-              <span>Der Text ist ein Pflichtfeld!</span>
-            } @else if (formTyped.get('content')?.hasError('minlength')) {
-              <span>Der Text muss mindestens 10 Zeichen beinhalten!</span>
-            }
-          </mat-error>
-        </mat-form-field>
-        <div class="button-group">
-          <button
-            type="reset"
-            mat-raised-button
-            [disabled]="this.blogState.isUploading()"
-            color="secondary"
-          >
-            Reset Form
-          </button>
-          <button
-            type="submit"
-            class="submit-button"
-            mat-raised-button
-            [disabled]="formTyped.invalid || this.blogState.isUploading()"
-            color="primary"
-          >
-            Publish Blog
-          </button>
-        </div>
+    @if (this.blogState.isUploading()) {
+      <div class="overlay">
+        <span class="loader"></span>
       </div>
-    </form>
-    <button [routerLink]="['/blog/']">Zurück</button>
+    }
+    <app-add-blog-form
+      [formTyped]="formTyped"
+      (childSubmit)="onSubmit()"
+      (childBack)="onBack()"
+    ></app-add-blog-form>
   `,
   styleUrl: './add-blog.component.scss',
 })
@@ -195,6 +113,10 @@ export default class AddBlogComponent {
       this.formTyped.markAllAsTouched();
       console.log('Form is invalid');
     }
+  }
+
+  onBack() {
+    this.router.navigate(['./blog/']);
   }
 
   customValidator(control: AbstractControl): ValidationErrors | null {
