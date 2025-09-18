@@ -4,7 +4,7 @@ import {
   inject,
   DestroyRef,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   AbstractControl,
   FormControl,
@@ -57,7 +57,11 @@ import { ActionType, Dispatcher } from '../../core/dispatcher.service';
         }
         <mat-form-field appearance="fill">
           <mat-label>Title</mat-label>
-          <input matInput formControlName="title" />
+          <input
+            matInput
+            formControlName="title"
+            placeholder="Bitte Titel eingeben."
+          />
           <mat-error>
             @if (formTyped.get('title')?.hasError('required')) {
               <span>Der Titel ist ein Pflichtfeld!</span>
@@ -74,7 +78,12 @@ import { ActionType, Dispatcher } from '../../core/dispatcher.service';
         </mat-form-field>
         <mat-form-field appearance="fill">
           <mat-label>Text</mat-label>
-          <textarea matInput rows="20" formControlName="content"></textarea>
+          <textarea
+            matInput
+            rows="20"
+            formControlName="content"
+            placeholder="Bitte Text eingeben."
+          ></textarea>
           <mat-error>
             @if (formTyped.get('content')?.hasError('required')) {
               <span>Der Text ist ein Pflichtfeld!</span>
@@ -109,6 +118,7 @@ import { ActionType, Dispatcher } from '../../core/dispatcher.service';
   styleUrl: './add-blog.component.scss',
 })
 export default class AddBlogComponent {
+  router = inject(Router);
   destroyRef = inject(DestroyRef);
   dispatcher = inject(Dispatcher);
 
@@ -119,7 +129,7 @@ export default class AddBlogComponent {
     title: FormControl<string>;
     content: FormControl<string>;
   }>({
-    title: new FormControl<string>('Bitte Titel eingeben', {
+    title: new FormControl<string>('', {
       nonNullable: true,
       validators: [
         Validators.required,
@@ -130,7 +140,7 @@ export default class AddBlogComponent {
       ],
       asyncValidators: [],
     }),
-    content: new FormControl<string>('Bitte Text eingeben', {
+    content: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(10)],
       asyncValidators: [],
@@ -166,6 +176,10 @@ export default class AddBlogComponent {
 
         // Blog speicher
         await this.addBlogService.addBlog(blogData as CreatedBlog);
+
+        this.formTyped.reset();
+        // Den User auf die Blogübersichtseite weiterleiten, beim erfolgriechen speichern
+        this.router.navigate(['./blog']);
       } catch (error) {
         this.dispatchErrorState(error);
         console.error('Error submitting blog: ', error);
