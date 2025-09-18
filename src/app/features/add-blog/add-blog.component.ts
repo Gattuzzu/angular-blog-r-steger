@@ -45,6 +45,11 @@ import { ActionType, Dispatcher } from '../../core/dispatcher.service';
     />
     <h1>Blog hinzufügen</h1>
     <form [formGroup]="formTyped" (ngSubmit)="onSubmit()">
+      @if (this.blogState.isUploading()) {
+        <div class="overlay">
+          <span class="loader"></span>
+        </div>
+      }
       <div class="blog-input">
         @if (this.blogState.error()) {
           <div class="error-message">
