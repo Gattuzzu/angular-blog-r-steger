@@ -35,6 +35,20 @@ p {
     background-color: colors.$color-primary-light;
     color: colors.$color-text-primary;
   }
+
+  .small {
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    font-size: 35px;
+    line-height: 1;
+  }
 }
 
 @media (max-width: 600px) {

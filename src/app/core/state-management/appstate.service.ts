@@ -6,7 +6,8 @@ import {
   NavigationStart,
   Router,
 } from '@angular/router';
-import { Dispatcher } from '../dispatcher.service';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs';
 
 export enum AppStates {
   onBlogOverview = 'onBlogOverview',
@@ -21,18 +22,20 @@ export enum AppStates {
 interface AppState {
   page: AppStates;
   isLoading: boolean;
+  isHandset: boolean;
 }
 
 const initialState: AppState = {
   page: AppStates.onUnknown,
   isLoading: false,
+  isHandset: false,
 };
 
 @Injectable({
   providedIn: 'root',
 })
 export class StateHandler {
-  private dispatcher = inject(Dispatcher);
+  private breakpointObserver = inject(BreakpointObserver);
   readonly router = inject(Router);
   readonly stateSignal = signal<AppState>(initialState);
 
@@ -41,6 +44,7 @@ export class StateHandler {
   // Selektoren
   public readonly actPage = computed(() => this.stateSignal().page);
   public readonly isLoading = computed(() => this.stateSignal().isLoading);
+  public readonly isHandset = computed(() => this.stateSignal().isHandset);
 
   constructor() {
     this.router.events.subscribe((/* event */) => {
@@ -74,6 +78,16 @@ export class StateHandler {
         }
       }
     });
+
+    this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(
+        map((result) => result.matches),
+        shareReplay(),
+      )
+      .subscribe((isHandset) => {
+        this.updateHandset(isHandset);
+      });
   }
 
   setActPageState(newState: AppStates) {
@@ -82,5 +96,9 @@ export class StateHandler {
 
   setLoadingState(value: boolean) {
     this.stateSignal.update((state) => ({ ...state, isLoading: value }));
+  }
+
+  updateHandset(value: boolean) {
+    this.stateSignal.update((state) => ({ ...state, isHandset: value }));
   }
 }
