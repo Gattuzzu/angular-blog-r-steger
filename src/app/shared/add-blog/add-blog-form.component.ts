@@ -59,6 +59,11 @@ import { MatButtonModule } from '@angular/material/button';
               <span>Der Titel muss mit einem Grossbuchstaben beginnen!</span>
             } @else if (formTyped().get('title')?.hasError('custom')) {
               <span>Der Titel darf nicht "Test" sein!</span>
+            } @else if (formTyped().get('title')?.hasError('titleExists')) {
+              <span
+                >Der Titel existiert bereits! Bitte anderen Titel
+                eingeben.</span
+              >
             }
           </mat-error>
         </mat-form-field>

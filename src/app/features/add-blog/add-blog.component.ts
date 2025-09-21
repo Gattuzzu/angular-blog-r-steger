@@ -20,6 +20,21 @@ import {
 import { BlogStore } from '../../core/blog/state';
 import { ActionType, Dispatcher } from '../../core/dispatcher.service';
 import AddBlogFormComponent from '../../shared/add-blog/add-blog-form.component';
+import {
+  BlogEntryPreview,
+  BlogService,
+} from '../../core/service/blog/blog.service';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+} from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-blog',
@@ -47,6 +62,7 @@ export default class AddBlogComponent {
 
   blogState = inject(BlogStore);
   addBlogService = inject(AddBlogService);
+  blogService = inject(BlogService);
 
   formTyped = new FormGroup<{
     title: FormControl<string>;
@@ -61,7 +77,7 @@ export default class AddBlogComponent {
         Validators.pattern('^[A-Z].*'), // Das Erste Zeichen muss ein Grossbuchstaben sein.
         this.customValidator, // Ein Custom Validator
       ],
-      asyncValidators: [],
+      asyncValidators: [this.customAsyncValidator.bind(this)],
     }),
     content: new FormControl<string>('', {
       nonNullable: true,
@@ -125,6 +141,37 @@ export default class AddBlogComponent {
       return { custom: true };
     }
     return null;
+  }
+
+  customAsyncValidator(
+    control: AbstractControl,
+  ): Observable<ValidationErrors | null> {
+    // Erstellen eines neuen Observable, das die HTTP-Anfrage ausführt
+    return of(control.value).pipe(
+      debounceTime(200), // warten bis der User nichts mehr eingibt
+      distinctUntilChanged(), // ändert der User den Wert, wird die alte Anfrage verworfen
+      switchMap((searchString) => {
+        // Wenn der Wert leer ist, sofort null zurückgeben
+        if (!searchString) {
+          return of(null);
+        }
+        return this.blogService.http
+          .get<{ data: BlogEntryPreview[] }>(this.blogService.apiUrl, {
+            params: new HttpParams().set('searchstring', String(searchString)),
+          })
+          .pipe(
+            take(1), // Schließt das Observable nach dem ersten Wert ab
+            map((res) => {
+              // Überprüfen, ob ein Blog-Eintrag mit dem gleichen Titel gefunden wurde
+              const blogExists = res.data.some(
+                (blog) => blog.title === searchString,
+              );
+              return blogExists ? { titleExists: true } : null;
+            }),
+            catchError(() => of(null)), // Bei einem Fehler, die Validierung bestehen lassen
+          );
+      }),
+    );
   }
 
   dispatchUploadingState(value: boolean) {
