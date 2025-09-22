@@ -1,0 +1,61 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="'dialog'"
+    [mode]="'over'"
+    [opened]="false"
+  >
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a [routerLink]="['/blog']" (click)="drawer.close()">Blog</a>
+      <a [routerLink]="['/calculator']" (click)="drawer.close()">Rechner</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div>
+      <mat-toolbar class="top-toolbar">
+        <!-- links / rechts aufgeteilt -->
+        @if (appState.isHandset()) {
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        } @else {
+          <div class="nav-links">
+            <a [routerLink]="['/blog']">Blog</a>
+            <a [routerLink]="['/calculator']">Rechner</a>
+          </div>
+        }
+
+        <span class="blog-app-title" [routerLink]="['/blog/']">Blog App</span>
+
+        <div class="user">
+          @if (authState.isAuthenticated()) {
+            <div
+              class="circle"
+              [title]="
+                authState.userData()?.preferred_username +
+                '
+Rollen:
+  ' +
+                authState.roles()?.join(
+                  '
+  '
+                )
+              "
+            >
+              <span>{{ authState.userData()?.preferred_username[0] }}</span>
+            </div>
+            <button (click)="authState.logout()">Logout</button>
+          } @else {
+            <button (click)="authState.login()">Login</button>
+          }
+        </div>
+      </mat-toolbar>
+    </div>
+
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
