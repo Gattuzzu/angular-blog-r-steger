@@ -1,4 +1,10 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import {
+  computed,
+  DestroyRef,
+  inject,
+  Injectable,
+  signal,
+} from '@angular/core';
 import {
   NavigationCancel,
   NavigationEnd,
@@ -8,6 +14,7 @@ import {
 } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export enum AppStates {
   onBlogOverview = 'onBlogOverview',
@@ -35,6 +42,7 @@ const initialState: AppState = {
   providedIn: 'root',
 })
 export class StateHandler {
+  destroyRef = inject(DestroyRef);
   private breakpointObserver = inject(BreakpointObserver);
   readonly router = inject(Router);
   readonly stateSignal = signal<AppState>(initialState);
@@ -82,6 +90,7 @@ export class StateHandler {
     this.breakpointObserver
       .observe(Breakpoints.Handset)
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         map((result) => result.matches),
         shareReplay(),
       )
