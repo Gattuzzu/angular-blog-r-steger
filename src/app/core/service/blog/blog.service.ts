@@ -67,9 +67,9 @@ interface BlogDetailState {
   providedIn: 'root',
 })
 export class BlogService {
-  private apiUrl = environment.serviceUrl;
+  readonly apiUrl = environment.serviceUrl;
 
-  private http = inject(HttpClient);
+  readonly http = inject(HttpClient);
 
   // constructor
   constructor() {

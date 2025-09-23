@@ -34,7 +34,7 @@ import { BlogEntryPreview } from '../../core/service/blog/blog.service';
             this.blogEntry()!.headerImageUrl !== '' &&
             typeof this.blogEntry()!.headerImageUrl === 'string'
               ? this.blogEntry()!.headerImageUrl
-              : 'images/pictureNotFound.png'
+              : 'https://picsum.photos/seed/' + this.blogEntry().id + '/348/300'
           "
           alt="Missing Picture"
         />

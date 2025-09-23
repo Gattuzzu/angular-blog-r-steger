@@ -1,8 +1,15 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import {
+  computed,
+  DestroyRef,
+  inject,
+  Injectable,
+  signal,
+} from '@angular/core';
 
 import { Router } from '@angular/router';
 import { Action, ActionType, Dispatcher } from '../dispatcher.service';
 import { filter } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface BlogState {
   error: string | undefined;
@@ -18,6 +25,7 @@ const initialState: BlogState = {
   providedIn: 'root',
 })
 export class BlogStore {
+  destroyRef = inject(DestroyRef);
   private dispatcher = inject(Dispatcher);
   readonly router = inject(Router);
   readonly stateSignal = signal<BlogState>(initialState);
@@ -28,7 +36,10 @@ export class BlogStore {
 
   constructor() {
     this.dispatcher.action
-      .pipe(filter((action) => action.type === ActionType.SET_UPLOADING_STATE))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((action) => action.type === ActionType.SET_UPLOADING_STATE),
+      )
       .subscribe((action) => {
         const typedAction = action as Action<{ isUploading: boolean }>;
         this.setUploadingState(typedAction.payload!.isUploading);
@@ -36,6 +47,7 @@ export class BlogStore {
 
     this.dispatcher.action
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         filter(
           (action) => action.type === ActionType.SET_UPLOADING_ERROR_STATE,
         ),

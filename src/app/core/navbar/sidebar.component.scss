@@ -1,0 +1,137 @@
+@use "../../../styles/colors.scss";
+
+.sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav-content {
+  padding-top: 60px;
+}
+
+// Sidebar
+.sidenav {
+  width: 12.5rem;
+  background-color: #333;
+  color: white;
+
+  mat-toolbar {
+    background-color: #222;
+    color: white;
+  }
+
+  .divider {
+    margin-top: 10px;
+    background-color: #222;
+    height: 3px;
+  }
+
+  mat-nav-list {
+    display: flex;
+    flex-direction: column;
+    button,
+    a {
+      color: white;
+      font-size: 1.1em;
+      padding: 10px 15px;
+      border-radius: 4px;
+      text-decoration: none;
+      background-color: #333;
+      border: none;
+      text-align: left;
+
+      &:hover {
+        transition: background-color 0.3s ease;
+        background-color: #575757;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+// Top Toolbar
+.top-toolbar {
+  height: 65px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 0 15px;
+  color: white;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+
+  mat-icon {
+    color: white;
+  }
+
+  .blog-app-title {
+    font-size: 1.3em;
+    color: colors.$color-accent;
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 5px 10px;
+      border-radius: 4px;
+    }
+  }
+  .nav-links a:hover {
+    background-color: #575757;
+    transition: background-color 0.3s ease;
+  }
+}
+
+.user {
+  // margin-right: auto;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    margin-left: 5px;
+    background-color: #333;
+    padding: 15px;
+    color: white;
+    border: none;
+    text-decoration: none;
+    font-size: 1em;
+    padding: 5px 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #575757;
+    border-radius: 4px;
+  }
+
+  .circle {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: colors.$color-accent;
+
+    span {
+      font-family: sans-serif;
+      font-weight: bold;
+      font-size: 25px;
+      color: colors.$color-primary;
+      text-transform: uppercase;
+    }
+  }
+}
