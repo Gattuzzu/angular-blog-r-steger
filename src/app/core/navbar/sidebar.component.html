@@ -11,6 +11,12 @@
     <mat-nav-list>
       <a [routerLink]="['/blog']" (click)="drawer.close()">Blog</a>
       <a [routerLink]="['/calculator']" (click)="drawer.close()">Rechner</a>
+      <div class="divider"></div>
+      @if (authState.isAuthenticated()) {
+        <button (click)="drawer.close(); authState.logout()">Logout</button>
+      } @else {
+        <button (click)="drawer.close(); authState.login()">Login</button>
+      }
     </mat-nav-list>
   </mat-sidenav>
 
@@ -48,7 +54,9 @@ Rollen:
             >
               <span>{{ authState.userData()?.preferred_username[0] }}</span>
             </div>
-            <button (click)="authState.logout()">Logout</button>
+            @if (!appState.isHandset()) {
+              <button (click)="authState.logout()">Logout</button>
+            }
           } @else {
             <button (click)="authState.login()">Login</button>
           }
