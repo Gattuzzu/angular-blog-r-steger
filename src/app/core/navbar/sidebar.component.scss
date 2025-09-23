@@ -58,6 +58,7 @@ mat-sidenav-content {
   .blog-app-title {
     font-size: 1.3em;
     color: colors.$color-accent;
+    cursor: pointer;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
