@@ -11,6 +11,17 @@ Mit dem folgenden Befehl können die nötigen packages zum Testen installiert we
 npm install -g @angular/cli
 ----
 
+
+#### Mock Package installieren
+
+Damit man die einzelnen Komponente und services Mocken kann benötigt man das Package ng-mocks. Dieses kann mit dem folgenden Befehl installiert werden.
+
+[source, shell]
+----
+npm install ng-mocks
+----
+
+
 ### Konfig erstellen
 
 Um Karma (Test runner) und Jasmin (Testing Framework) konfigurieren zu können, benötigt man das "karma.conf.js" File. 

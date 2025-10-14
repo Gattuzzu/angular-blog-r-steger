@@ -17,13 +17,7 @@ describe('BlogCard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [provideRouter([])],
-      imports: [
-        CommonModule,
-        MatCardModule,
-        MatButtonModule,
-        MatIconModule,
-        BlogCardComponent,
-      ],
+      imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
     });
     fixture = TestBed.createComponent(BlogCardComponent);
     component = fixture.componentInstance;
