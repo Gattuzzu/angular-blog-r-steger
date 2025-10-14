@@ -1,0 +1,57 @@
+# Testing in Angular
+
+## Installieren
+
+### Package installieren
+
+Mit dem folgenden Befehl können die nötigen packages zum Testen installiert werden:
+
+[source, shell]
+----
+npm install -g @angular/cli
+----
+
+### Konfig erstellen
+
+Um Karma (Test runner) und Jasmin (Testing Framework) konfigurieren zu können, benötigt man das "karma.conf.js" File. 
+Dieses kann man mit dem folgenden Befehl erstellen lassen:
+
+[source, shell]
+----
+ng generate config karma
+----
+
+
+### Launcher hinzufügen
+
+In der Basis konfiguration ist nur der chrome launcher enthalten.
+Um einen weiteren hinzuzufügen, z.B. Firefox muss man folgenden Befehl absetzen:
+
+[source, shell]
+----
+npm install --save-dev karma-firefox-launcher
+----
+
+Zudem muss in der Datei "karma.conf.js" noch folgendes erweitert werden:
+
+[source, js]
+-----
+config.set({
+  plugins: [
+    require('karma-firefox-launcher'),
+  ],
+  browsers: ['Chrome', 'Firefox'],
+});
+-----
+
+Eventuell sollte man *Firefox* weglassen da dies bei mir zu Problemen führte.
+
+
+## Test ausführen
+
+Um die Test ausführen zu können, muss man diese mit dem folgenden befehl starten:
+
+[source, shell]
+----
+ng test
+----
