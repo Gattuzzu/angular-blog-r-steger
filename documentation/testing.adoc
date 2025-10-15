@@ -1,0 +1,95 @@
+# Testing in Angular
+
+## Installieren
+
+### Package installieren
+
+Mit dem folgenden Befehl können die nötigen packages zum Testen installiert werden:
+
+[source, shell]
+----
+npm install -g @angular/cli
+----
+
+
+#### Mock Package installieren
+
+Damit man die einzelnen Komponente und services Mocken kann benötigt man das Package ng-mocks. Dieses kann mit dem folgenden Befehl installiert werden.
+
+[source, shell]
+----
+npm install ng-mocks
+----
+
+
+### Konfig erstellen
+
+Um Karma (Test runner) und Jasmin (Testing Framework) konfigurieren zu können, benötigt man das "karma.conf.js" File. 
+Dieses kann man mit dem folgenden Befehl erstellen lassen:
+
+[source, shell]
+----
+ng generate config karma
+----
+
+
+### Launcher hinzufügen
+
+In der Basis konfiguration ist nur der chrome launcher enthalten.
+Um einen weiteren hinzuzufügen, z.B. Firefox muss man folgenden Befehl absetzen:
+
+[source, shell]
+----
+npm install --save-dev karma-firefox-launcher
+----
+
+Zudem muss in der Datei "karma.conf.js" noch folgendes erweitert werden:
+
+[source, js]
+-----
+config.set({
+  plugins: [
+    require('karma-firefox-launcher'),
+  ],
+  browsers: ['Chrome', 'Firefox'],
+});
+-----
+
+Eventuell sollte man *Firefox* weglassen da dies bei mir zu Problemen führte.
+
+
+## Test ausführen
+
+Um die Test ausführen zu können, muss man diese mit dem folgenden befehl starten:
+
+[source, shell]
+----
+ng test
+----
+
+
+## Test Abdeckung überprüfen
+
+Mit dem folgenden Befehl kann die Testabdeckung vom Projekt abgefragt werden:
+
+[source, shell]
+----
+ng test --no-watch --code-coverage
+----
+
+Dieser gibt dann die Groben Werte in der Konsole aus.
+Dies sieht dann etwa so aus:
+
+[source, shell]
+----
+=============================== Coverage summary ===============================
+Statements   : 53.27% ( 114/214 )
+Branches     : 15% ( 6/40 )
+Functions    : 46.57% ( 34/73 )
+Lines        : 52.68% ( 98/186 )
+================================================================================
+----
+
+Zudem wird ein Ordner "coverage" erstellt.
+In diesem kann man dann das index.html ausführen und man sieht eine detailiertere Ansicht, welche Komponenten wie gut getestet sind.
+Siehe link:./../coverage/angular-blog-r-steger/index.html[index.html]

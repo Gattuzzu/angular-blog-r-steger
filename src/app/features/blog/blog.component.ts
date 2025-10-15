@@ -58,6 +58,6 @@ export default class BlogComponent {
   }
 
   handleClickOnBlogEntry(blogId: number) {
-    this.router.navigate(['/blog/', blogId]);
+    this.router.navigateByUrl(`/blog/${blogId}`);
   }
 }
