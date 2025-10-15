@@ -1,0 +1,22 @@
+# Übersetzung in Angular
+
+## Installieren der benötigen Packages
+
+### Core Package
+
+Gib den folgenden Befehl in die Kommandozeile ein um das Packet hinzuzufügen:
+
+[source, shell]
+----
+npm install @ngx-translate/core
+----
+
+
+### http-loader Package
+
+Gib den folgenden Befehl in die Kommandozeile ein um das Packet hinzuzufügen:
+
+[source, shell]
+----
+npm install @ngx-translate/http-loader
+----

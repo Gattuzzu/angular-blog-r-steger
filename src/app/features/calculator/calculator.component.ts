@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -6,6 +6,7 @@ import { Operation } from '../../core/service/calculator/operation.service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-calculator',
@@ -17,6 +18,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatButtonModule,
     MatButtonToggleModule,
     CommonModule,
+    TranslateModule,
   ],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',
@@ -24,6 +26,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 export default class CalculatorComponent {
   @Input() isSpecial = false;
   @Output() messageEvent = new EventEmitter<string>();
+
+  translateService = inject(TranslateService);
+
   public selected = '';
   public operation = Operation;
   public newText = '';
@@ -78,5 +83,10 @@ export default class CalculatorComponent {
         this.result = this.numberB !== 0 ? this.numberA / this.numberB : NaN;
         break;
     }
+  }
+
+  public selectLanguage(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.translateService.use(selectElement.value);
   }
 }
