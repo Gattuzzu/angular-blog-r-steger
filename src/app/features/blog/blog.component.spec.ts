@@ -108,9 +108,6 @@ describe('BlogOverview', () => {
   it('has correct amount of cards', () => {
     fixture = TestBed.createComponent(BlogComponent);
 
-    const routerMock = TestBed.inject(Router);
-    routerMock.initialNavigation();
-
     fixture.detectChanges();
 
     const bloglist = fixture.debugElement.queryAll(By.css('app-blog-card'));
@@ -196,5 +193,19 @@ describe('BlogOverview', () => {
     const buttonText = button.nativeElement.textContent.trim();
 
     expect(buttonText).toBe('Neuer Blog');
+  });
+
+  it('routs to blog detail view', () => {
+    fixture = TestBed.createComponent(BlogComponent);
+    fixture.detectChanges();
+
+    const routerMock = TestBed.inject(Router);
+    const navigateSpy = spyOn(routerMock, 'navigateByUrl');
+
+    const bloglist = fixture.debugElement.queryAll(By.css('app-blog-card'));
+    bloglist[1].children[0].nativeElement.click();
+    fixture.detectChanges();
+
+    expect(navigateSpy).toHaveBeenCalledWith('/blog/2');
   });
 });
