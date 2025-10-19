@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BlogStore } from '../../core/blog/state';
 import { MatInputModule } from '@angular/material/input';
@@ -19,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
+    TranslatePipe,
   ],
   styleUrl: './add-blog-form.component.scss',
   standalone: true,
@@ -29,24 +31,21 @@ import { MatButtonModule } from '@angular/material/button';
       rel="stylesheet"
     />
     <!-- Dieses Font wird für das <mat-icon> benötigt-->
-    <h1>Blog hinzufügen</h1>
+    <h1>{{ 'ADD_BLOG.TITLE' | translate }}</h1>
     <form [formGroup]="formTyped()" (ngSubmit)="onSubmit()">
       <div class="blog-input">
         @if (this.blogState.error()) {
           <div class="error-message">
             <mat-icon>error</mat-icon>
-            <span
-              >Oops, der Blog konnte nicht gespeichert werden. Bitte versuchen
-              Sie es später nochmals.</span
-            >
+            <span>{{ 'ADD_BLOG.ERROR' | translate }}</span>
           </div>
         }
         <mat-form-field appearance="fill">
-          <mat-label>Title</mat-label>
+          <mat-label>{{ 'ADD_BLOG.BLOG_TITLE' | translate }}</mat-label>
           <input
             matInput
             formControlName="title"
-            placeholder="Bitte Titel eingeben."
+            placeholder="{{ 'ADD_BLOG.BLOG_TITLE_PLACEHOLDER' | translate }}"
           />
           <mat-error>
             @if (formTyped().get('title')?.hasError('required')) {
@@ -68,12 +67,12 @@ import { MatButtonModule } from '@angular/material/button';
           </mat-error>
         </mat-form-field>
         <mat-form-field appearance="fill">
-          <mat-label>Text</mat-label>
+          <mat-label>{{ 'ADD_BLOG.BLOG_TEXT' | translate }}</mat-label>
           <textarea
             matInput
             rows="20"
             formControlName="content"
-            placeholder="Bitte Text eingeben."
+            placeholder="{{ 'ADD_BLOG.BLOG_TEXT_PLACEHOLDER' | translate }}"
           ></textarea>
           <mat-error>
             @if (formTyped().get('content')?.hasError('required')) {
@@ -90,7 +89,7 @@ import { MatButtonModule } from '@angular/material/button';
             [disabled]="this.blogState.isUploading()"
             color="secondary"
           >
-            Reset Form
+            {{ 'ADD_BLOG.RESET' | translate }}
           </button>
           <button
             type="submit"
@@ -99,12 +98,12 @@ import { MatButtonModule } from '@angular/material/button';
             [disabled]="formTyped().invalid || this.blogState.isUploading()"
             color="primary"
           >
-            Publish Blog
+            {{ 'ADD_BLOG.PUBLISH' | translate }}
           </button>
         </div>
       </div>
     </form>
-    <button (click)="goBack()">Zurück</button>
+    <button (click)="goBack()">{{ 'ADD_BLOG.BACK' | translate }}</button>
   `,
 })
 export default class AddBlogFormComponent {

@@ -6,7 +6,7 @@ import { Operation } from '../../core/service/calculator/operation.service';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-calculator',
@@ -18,7 +18,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     MatButtonModule,
     MatButtonToggleModule,
     CommonModule,
-    TranslateModule,
+    TranslatePipe,
   ],
   templateUrl: './calculator.component.html',
   styleUrl: './calculator.component.scss',

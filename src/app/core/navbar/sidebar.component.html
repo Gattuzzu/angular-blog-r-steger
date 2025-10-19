@@ -7,15 +7,30 @@
     [mode]="'over'"
     [opened]="false"
   >
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>{{ "SIDEBAR.MENU" | translate }}</mat-toolbar>
     <mat-nav-list>
-      <a [routerLink]="['/blog']" (click)="drawer.close()">Blog</a>
-      <a [routerLink]="['/calculator']" (click)="drawer.close()">Rechner</a>
+      <a [routerLink]="['/blog']" (click)="drawer.close()">{{
+        "SIDEBAR.BLOG" | translate
+      }}</a>
+      <a [routerLink]="['/calculator']" (click)="drawer.close()">{{
+        "SIDEBAR.CALCULATOR" | translate
+      }}</a>
       <div class="divider"></div>
       @if (authState.isAuthenticated()) {
-        <button (click)="drawer.close(); authState.logout()">Logout</button>
+        <button (click)="drawer.close(); authState.logout()">
+          {{ "SIDEBAR.LOGOUT" | translate }}
+        </button>
       } @else {
-        <button (click)="drawer.close(); authState.login()">Login</button>
+        <button (click)="drawer.close(); authState.login()">
+          {{ "SIDEBAR.LOGIN" | translate }}
+        </button>
+      }
+      <div class="divider"></div>
+      <span>{{ "SIDEBAR.LANGUAGE" | translate }}</span>
+      @for (lang of language; track lang) {
+        <button (click)="drawer.close(); langState.setLanguage(lang)">
+          {{ `SIDEBAR.LANG.${lang.name}` | translate }}
+        </button>
       }
     </mat-nav-list>
   </mat-sidenav>
@@ -30,12 +45,24 @@
           </button>
         } @else {
           <div class="nav-links">
-            <a [routerLink]="['/blog']">Blog</a>
-            <a [routerLink]="['/calculator']">Rechner</a>
+            <a [routerLink]="['/blog']">{{ "SIDEBAR.BLOG" | translate }}</a>
+            <a [routerLink]="['/calculator']">{{
+              "SIDEBAR.CALCULATOR" | translate
+            }}</a>
           </div>
         }
 
-        <span class="blog-app-title" [routerLink]="['/blog/']">Blog App</span>
+        <span class="blog-app-title" [routerLink]="['/blog/']">{{
+          "SIDEBAR.TITEL" | translate
+        }}</span>
+
+        @if (!appState.isHandset()) {
+          @for (lang of language; track lang) {
+            <button (click)="langState.setLanguage(lang)">
+              {{ `SIDEBAR.LANG.${lang.name}` | translate }}
+            </button>
+          }
+        }
 
         <div class="user">
           @if (authState.isAuthenticated()) {
@@ -55,10 +82,14 @@ Rollen:
               <span>{{ authState.userData()?.preferred_username[0] }}</span>
             </div>
             @if (!appState.isHandset()) {
-              <button (click)="authState.logout()">Logout</button>
+              <button (click)="authState.logout()">
+                {{ "SIDEBAR.LOGOUT" | translate }}
+              </button>
             }
           } @else {
-            <button (click)="authState.login()">Login</button>
+            <button (click)="authState.login()">
+              {{ "SIDEBAR.LOGIN" | translate }}
+            </button>
           }
         </div>
       </mat-toolbar>

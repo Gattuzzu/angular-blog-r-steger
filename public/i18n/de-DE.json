@@ -1,5 +1,57 @@
 {
-  "key": "Schlüssel",
-  "language.english": "Englisch",
-  "language.german": "Deutsch" 
+  "CALCULATOR" : {
+    "KEY": "Schlüssel"
+  },
+  
+  "SIDEBAR" : {
+    "TITLE" : "Blog App",
+    "MENU" : "Menu",
+    "BLOG" : "Blog",
+    "CALCULATOR" : "Rechner",
+    "LOGIN" : "Einloggen",
+    "LOGOUT" : "Ausloggen",
+    "LANGUAGE" : "Sprache",
+
+    "LANG" : {
+      "ENGLISH": "Englisch",
+      "GERMAN": "Deutsch"
+    }
+  },
+
+  "BLOG" : {
+    "TITLE" : "Blog Übersicht",
+    "ADD_BLOG" : "Neuer Blog",
+    "NO_BLOG_FOUND" : "Keine Blogeinträge vorhanden.",
+    "LOADING" : "Lade Daten..."
+  },
+
+  "BLOG_CARD" : {
+    "LIKE" : "Liken",
+    "SHARE" : "Teilen",
+    "ERROR" : "Fehler beim anzeigen von der Blog Vorschau!"
+  },
+
+  "BLOG_DETAIL_VIEW" : {
+    "BLOG_ID" : "Blog Id: {{ id }}",
+    "AUTHOR" : "Author: {{ author }}",
+    "BACK" : "Zurück",
+    "ERROR" : "Blog konnte nicht geladen werden!",
+
+    "COMMENT" : {
+      "COMMENT_ID" : "Kommentar Id: {{ id }}"
+    }
+  },
+
+  "ADD_BLOG" : {
+    "BACK" : "Zurück",
+    "RESET" : "Eingaben zurücksetzen",
+    "PUBLISH" : "Blog veröffentlichen",
+    "TITLE" : "Blog hinzufügen",
+    "BLOG_TITLE" : "Titel",
+    "BLOG_TEXT" : "Text",
+    "BLOG_TITLE_PLACEHOLDER" : "Bitte Titel eingeben.",
+    "BLOG_TEXT_PLACEHOLDER" : "Bitte Text eingeben.",
+    "ERROR" : "Oops, der Blog konnte nicht gespeichert werden. Bitte versuchen Sie es später nochmals."
+
+  }
 }

@@ -1,9 +1,9 @@
 <div [ngClass]="isSpecial ? 'special' : ''">
-  <p>{{ "key" | translate }}</p>
+  <p>{{ "CALCULATOR.KEY" | translate }}</p>
   <select (change)="selectLanguage($event)" class="langugae-picker">
-    <option value="de-DE">{{ "language.german" | translate }}</option>
+    <option value="de-DE">{{ "SIDEBAR.LANG.GERMAN" | translate }}</option>
     <option selected="selected" value="en-US">
-      {{ "language.english" | translate }}
+      {{ "SIDEBAR.LANG.ENGLISH" | translate }}
     </option>
   </select>
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
