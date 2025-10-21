@@ -15,7 +15,7 @@
       <a [routerLink]="['/calculator']" (click)="drawer.close()">{{
         "SIDEBAR.CALCULATOR" | translate
       }}</a>
-      <div class="divider"></div>
+      <div class="dividerHorizontal"></div>
       @if (authState.isAuthenticated()) {
         <button (click)="drawer.close(); authState.logout()">
           {{ "SIDEBAR.LOGOUT" | translate }}
@@ -25,13 +25,15 @@
           {{ "SIDEBAR.LOGIN" | translate }}
         </button>
       }
-      <div class="divider"></div>
+      <div class="dividerHorizontal"></div>
       <span>{{ "SIDEBAR.LANGUAGE" | translate }}</span>
-      @for (lang of language; track lang) {
-        <button (click)="drawer.close(); langState.setLanguage(lang)">
-          {{ `SIDEBAR.LANG.${lang.name}` | translate }}
-        </button>
-      }
+      <div class="languagebox">
+        @for (lang of language; track lang) {
+          <button (click)="drawer.close(); langState.setLanguage(lang)">
+            {{ `SIDEBAR.LANG.${lang.name}` | translate }}
+          </button>
+        }
+      </div>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -55,14 +57,6 @@
         <span class="blog-app-title" [routerLink]="['/blog/']">{{
           "SIDEBAR.TITLE" | translate
         }}</span>
-
-        @if (!appState.isHandset()) {
-          @for (lang of language; track lang) {
-            <button (click)="langState.setLanguage(lang)">
-              {{ `SIDEBAR.LANG.${lang.name}` | translate }}
-            </button>
-          }
-        }
 
         <div class="user">
           @if (authState.isAuthenticated()) {
@@ -90,6 +84,16 @@ Rollen:
             <button (click)="authState.login()">
               {{ "SIDEBAR.LOGIN" | translate }}
             </button>
+          }
+          @if (!appState.isHandset()) {
+            <div class="dividerVertical"></div>
+            <div class="languagebox">
+              @for (lang of language; track lang) {
+                <button class="language" (click)="langState.setLanguage(lang)">
+                  {{ `SIDEBAR.LANG.${lang.name}` | translate }}
+                </button>
+              }
+            </div>
           }
         </div>
       </mat-toolbar>

@@ -19,7 +19,7 @@ mat-sidenav-content {
     color: white;
   }
 
-  .divider {
+  .dividerHorizontal {
     margin-top: 10px;
     background-color: #222;
     height: 3px;
@@ -45,6 +45,16 @@ mat-sidenav-content {
         cursor: pointer;
       }
     }
+    span {
+      padding: 10px 0 5px 15px;
+      font-size: 1.1em;
+      // background-color: red;
+    }
+    .languagebox {
+      display: flex;
+      flex-direction: column;
+      padding-left: 15px;
+    }
   }
 }
 
@@ -56,7 +66,7 @@ mat-sidenav-content {
   justify-content: space-between;
   align-items: center;
   background-color: #333;
-  padding: 0 15px;
+  padding: 0 10px 0 15px;
   color: white;
   position: fixed;
   top: 0;
@@ -97,6 +107,16 @@ mat-sidenav-content {
   // margin-right: auto;
   display: flex;
   justify-content: flex-end;
+  height: 50px;
+
+  .dividerVertical {
+    display: block;
+    margin-left: 10px;
+    background-color: #575757;
+    height: 100%;
+    width: 4px;
+    align-self: stretch;
+  }
 
   button {
     margin-left: 5px;
@@ -111,6 +131,17 @@ mat-sidenav-content {
     cursor: pointer;
   }
 
+  .languagebox {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .language {
+    font-size: 0.7em;
+    height: 50%;
+    margin-left: 2px;
+  }
+
   button:hover {
     background-color: #575757;
     border-radius: 4px;
@@ -119,9 +150,10 @@ mat-sidenav-content {
   .circle {
     width: 40px;
     height: 40px;
-    margin-right: 5px;
+    margin-right: 0;
     border-radius: 50%;
     display: flex;
+    align-self: center;
     justify-content: center;
     align-items: center;
     background-color: colors.$color-accent;
