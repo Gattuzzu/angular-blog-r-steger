@@ -33,11 +33,23 @@ module.exports = tseslint.config(
     },
   },
   {
+    // Dieser Block gilt nur für Dateien, die auf .spec.ts enden
+    files: ["**/*.spec.ts"],
+    rules: {
+      // Deaktiviert die Regel, die die explizite Verwendung von 'any' verbietet
+      "@typescript-eslint/no-explicit-any": "off",
+
+      // OPTIONAL: Oft ist es in Tests auch sinnvoll, die Regel für
+      // das "Non-null assertion operator" (!) zu deaktivieren.
+      // "@typescript-eslint/no-non-null-assertion": "off",
+    },
+  },
+  {
     files: ["**/*.html"],
     extends: [
       ...angular.configs.templateRecommended,
       ...angular.configs.templateAccessibility,
     ],
     rules: {},
-  }
+  },
 );
