@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import * as deTranslations from '../../../../public/i18n/de-DE.json';
+
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { Router, RouterLink, provideRouter } from '@angular/router';
 import { By } from '@angular/platform-browser';
@@ -11,6 +14,18 @@ import {
 import BlogComponent from './blog.component';
 import { Authentication } from '../../core/auth';
 import { StateHandler } from '../../core/state-management/appstate.service';
+import {
+  provideTranslateService,
+  TranslateLoader,
+  TranslatePipe,
+} from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+
+export class TranslateFakeLoader implements TranslateLoader {
+  getTranslation(): Observable<any> {
+    return of(deTranslations);
+  }
+}
 
 // Hilfskonstante für den BlogService Mock, da er in allen Tests konstant ist
 const MOCK_BLOG_SERVICE_VALUE = {
@@ -59,12 +74,17 @@ describe('BlogOverview', () => {
       providers: [
         provideRouter([]),
         provideHttpClientTesting(),
+        provideTranslateService({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+          fallbackLang: 'en-US',
+          lang: 'en-US',
+        }),
 
         { provide: BlogService, useValue: MOCK_BLOG_SERVICE_VALUE },
         { provide: Authentication, useValue: MOCK_AUTH_DEFAULT_VALUE },
         { provide: StateHandler, useValue: MOCK_STATE_HANDLER_PROVIDER },
       ],
-      imports: [BlogComponent, BlogCardComponent, RouterLink],
+      imports: [BlogComponent, BlogCardComponent, RouterLink, TranslatePipe],
     });
   });
 

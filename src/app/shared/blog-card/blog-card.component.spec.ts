@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import * as deTranslations from '../../../../public/i18n/de-DE.json';
+
 import { BlogCardComponent } from './blog-card.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,6 +10,18 @@ import { Router, provideRouter } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { By } from '@angular/platform-browser';
 import { BlogEntryPreview } from '../../core/service/blog/blog.service';
+import {
+  provideTranslateService,
+  TranslateLoader,
+  TranslatePipe,
+} from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+
+export class TranslateFakeLoader implements TranslateLoader {
+  getTranslation(): Observable<any> {
+    return of(deTranslations);
+  }
+}
 
 describe('BlogCard', () => {
   let component: BlogCardComponent;
@@ -16,8 +30,21 @@ describe('BlogCard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideRouter([])],
-      imports: [CommonModule, MatCardModule, MatButtonModule, MatIconModule],
+      providers: [
+        provideRouter([]),
+        provideTranslateService({
+          loader: { provide: TranslateLoader, useClass: TranslateFakeLoader },
+          fallbackLang: 'en-US',
+          lang: 'en-US',
+        }),
+      ],
+      imports: [
+        CommonModule,
+        MatCardModule,
+        MatButtonModule,
+        MatIconModule,
+        TranslatePipe,
+      ],
     });
     fixture = TestBed.createComponent(BlogCardComponent);
     component = fixture.componentInstance;

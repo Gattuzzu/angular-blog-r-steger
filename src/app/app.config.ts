@@ -12,6 +12,8 @@ import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideGlobalErrorHandler } from './core/errorHandler/provider';
 import { authConfig } from './core/auth/auth.config';
 import { provideAuth, authInterceptor } from 'angular-auth-oidc-client';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -25,6 +27,14 @@ export const appConfig: ApplicationConfig = {
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }, // Wird wohl erst beim Authentifizieren benötigt. Noch nicht implementiert
     provideAnimations(),
     provideAuth(authConfig),
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: '/i18n/',
+        suffix: '.json',
+      }),
+      fallbackLang: 'en-US',
+      lang: 'en-US',
+    }),
   ],
 };
 

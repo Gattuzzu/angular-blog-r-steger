@@ -5,18 +5,19 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { BlogEntryPreview } from '../../core/service/blog/blog.service';
 
 @Component({
   selector: 'app-blog-card',
-  imports: [MatCardModule],
+  imports: [MatCardModule, TranslatePipe],
   styleUrl: './blog-card.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (this.blogEntry() === null) {
-      <p>Fehler beim anzeigen von der Blog Vorschau!</p>
+      <p>{{ 'BLOG_CARD.ERROR' | translate }}</p>
     } @else {
       <mat-card
         class="blog-card"
@@ -42,8 +43,8 @@ import { BlogEntryPreview } from '../../core/service/blog/blog.service';
           <p>{{ this.blogEntry()!.contentPreview }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button matButton>LIKE</button>
-          <button matButton>SHARE</button>
+          <button matButton>{{ 'BLOG_CARD.LIKE' | translate }}</button>
+          <button matButton>{{ 'BLOG_CARD.SHARE' | translate }}</button>
         </mat-card-actions>
       </mat-card>
     }

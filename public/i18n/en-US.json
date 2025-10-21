@@ -1,0 +1,56 @@
+{
+  "CALCULATOR" : {
+    "KEY": "Key"
+  },
+  
+  "SIDEBAR" : {
+    "TITLE" : "Blog App",
+    "MENU" : "Menu",
+    "BLOG" : "Blog",
+    "CALCULATOR" : "Calculator",
+    "LOGIN" : "Login",
+    "LOGOUT" : "Logout",
+    "LANGUAGE" : "Language",
+
+    "LANG" : {
+      "ENGLISH": "English",
+      "GERMAN": "German"
+    }
+  },
+
+  "BLOG" : {
+    "TITLE" : "Blog Overview",
+    "ADD_BLOG" : "New Blog",
+    "NO_BLOG_FOUND" : "No blog entries available.",
+    "LOADING" : "Load Data..."
+  },
+
+  "BLOG_CARD" : {
+    "LIKE" : "Like",
+    "SHARE" : "Share",
+    "ERROR" : "Error displaying blog preview!"
+  },
+
+  "BLOG_DETAIL_VIEW" : {
+    "BLOG_ID" : "Blog Id: {{ id }}",
+    "AUTHOR" : "Author: {{ author }}",
+    "BACK" : "Back",
+    "ERROR" : "Blog could not be loaded!",
+
+    "COMMENT" : {
+      "COMMENT_ID" : "Comment Id: {{ id }}"
+    }
+  },
+
+  "ADD_BLOG" : {
+    "BACK" : "Back",
+    "RESET" : "Reset entries",
+    "PUBLISH" : "Publish blog",
+    "TITLE" : "Add blog",
+    "BLOG_TITLE" : "Title",
+    "BLOG_TEXT" : "Text",
+    "BLOG_TITLE_PLACEHOLDER" : "Please enter title.",
+    "BLOG_TEXT_PLACEHOLDER" : "Please enter text.",
+    "ERROR" : "Oops, the blog could not be saved. Please try again later."
+  }
+}

@@ -1,5 +1,6 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { BlogService } from '../../core/service/blog/blog.service';
 import { BlogCardComponent } from '../../shared/blog-card/blog-card.component';
@@ -8,15 +9,15 @@ import { StateHandler } from '../../core/state-management/appstate.service';
 
 @Component({
   selector: 'app-blog',
-  imports: [BlogCardComponent, RouterLink],
+  imports: [BlogCardComponent, RouterLink, TranslatePipe],
   styleUrl: './blog.component.scss',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h1>Blog Übersicht</h1>
+    <h1>{{ 'BLOG.TITLE' | translate }}</h1>
 
     @if (loading()) {
-      <p>Lade Daten...</p>
+      <p>{{ 'BLOG.LOADING' | translate }}</p>
       <div class="blog-container">
         <span class="loader"></span>
       </div>
@@ -30,13 +31,15 @@ import { StateHandler } from '../../core/state-management/appstate.service';
             (blogId)="handleClickOnBlogEntry($event)"
           ></app-blog-card>
         } @empty {
-          <p>Keine Blogeinträge vorhanden.</p>
+          <p>{{ 'BLOG.NO_BLOG_FOUND' | translate }}</p>
         }
         @if (this.authState.isAuthenticated()) {
           @if (this.blogState.isHandset()) {
             <button class="small" [routerLink]="['/add-blog/']">+</button>
           } @else {
-            <button [routerLink]="['/add-blog/']">Neuer Blog</button>
+            <button [routerLink]="['/add-blog/']">
+              {{ 'BLOG.ADD_BLOG' | translate }}
+            </button>
           }
         }
       </div>

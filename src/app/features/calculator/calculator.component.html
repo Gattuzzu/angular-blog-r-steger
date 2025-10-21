@@ -1,4 +1,11 @@
 <div [ngClass]="isSpecial ? 'special' : ''">
+  <p>{{ "CALCULATOR.KEY" | translate }}</p>
+  <select (change)="selectLanguage($event)" class="langugae-picker">
+    <option value="de-DE">{{ "SIDEBAR.LANG.GERMAN" | translate }}</option>
+    <option selected="selected" value="en-US">
+      {{ "SIDEBAR.LANG.ENGLISH" | translate }}
+    </option>
+  </select>
   <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
     <mat-button-toggle (click)="switchSelected('calculator')" value="calculator"
       >Calculator</mat-button-toggle
